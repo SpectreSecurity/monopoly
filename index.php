@@ -72,7 +72,7 @@ if (g_field>32) {
 	<div style="float: left;">
 	<section onclick="DoAction('pzc1')" id="con" class="player1 teal right">
 		<h1>CON</h1>
-		<div id=console></div>
+		<div id=console>Console</div>
 	</section>
 	</div>
 	<div style="width:5em;float: left;">
