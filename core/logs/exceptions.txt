@@ -1,0 +1,61 @@
+26/09/2012 19:22:42\nmysqlt error: [1690: BIGINT UNSIGNED value is out of range in '(`monopoly`.`m_gsession_user`.`user_cash` - 13349213689524623000)'] in adodb_throw(update m_gsession_user set user_cash=user_cash-13349213689524623000
+where user_id=2 and gsession_id=6, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1690, 'BIGINT UNSIGNED...', 'update m_gsessi...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1690, 'BIGINT UNSIGNED...', 'update m_gsessi...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('update m_gsessi...', false)
+#3 /var/www/html/mon/core/core.php(112): ADOConnection->Execute('update m_gsessi...')
+#4 /var/www/html/mon/core/core.php(833): DbSQL('update m_gsessi...')
+#5 /var/www/html/mon/core/core.php(875): GSession->HolderDoAction('13', 'onsite')
+#6 /var/www/html/mon/core/core.php(980): GSession->HolderDoOnsiteAction('13')
+#7 /var/www/html/mon/do_maketurn.php(18): GSession->HolderMakeTurn()
+#8 {main}
+26/09/2012 19:25:24\nmysqlt error: [1690: BIGINT UNSIGNED value is out of range in '(`monopoly`.`m_gsession_user`.`user_cash` - 14664813687357417000)'] in adodb_throw(update m_gsession_user set user_cash=user_cash-14664813687357417000
+where user_id=2 and gsession_id=6, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1690, 'BIGINT UNSIGNED...', 'update m_gsessi...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1690, 'BIGINT UNSIGNED...', 'update m_gsessi...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('update m_gsessi...', false)
+#3 /var/www/html/mon/core/core.php(112): ADOConnection->Execute('update m_gsessi...')
+#4 /var/www/html/mon/core/core.php(833): DbSQL('update m_gsessi...')
+#5 /var/www/html/mon/core/core.php(875): GSession->HolderDoAction('13', 'onsite')
+#6 /var/www/html/mon/core/core.php(980): GSession->HolderDoOnsiteAction('13')
+#7 /var/www/html/mon/do_maketurn.php(18): GSession->HolderMakeTurn()
+#8 {main}
+26/09/2012 21:11:51\nmysqlt error: [1062: Duplicate entry '2012-09-26 21:11:51' for key 'watch_stamp'] in adodb_throw(Update `m_watchdog` set `wstatus`= 'finished', watch_stamp = CURRENT_TIMESTAMP, wend_stamp = CURRENT_TIMESTAMP, wspend=46.347315073013  where w_id=129579, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1062, 'Duplicate entry...', 'Update `m_watch...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1062, 'Duplicate entry...', 'Update `m_watch...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('Update `m_watch...', false)
+#3 /var/www/html/mon/core/core.php(112): ADOConnection->Execute('Update `m_watch...')
+#4 /var/www/html/mon/core/watchdog.php(213): DbSQL('Update `m_watch...')
+#5 /var/www/html/mon/core/rwatchdog.php(9): WatchDog()
+#6 {main}
+26/09/2012 21:11:51\nmysqlt error: [1062: Duplicate entry '2012-09-26 21:11:51' for key 'watch_stamp'] in adodb_throw(Update `m_watchdog` set `wstatus`= 'finished', watch_stamp = CURRENT_TIMESTAMP, wend_stamp = CURRENT_TIMESTAMP, wspend=90.54318189621  where w_id=129578, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1062, 'Duplicate entry...', 'Update `m_watch...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1062, 'Duplicate entry...', 'Update `m_watch...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('Update `m_watch...', false)
+#3 /var/www/html/mon/core/core.php(112): ADOConnection->Execute('Update `m_watch...')
+#4 /var/www/html/mon/core/watchdog.php(213): DbSQL('Update `m_watch...')
+#5 /var/www/html/mon/core/rwatchdog.php(9): WatchDog()
+#6 {main}
+26/09/2012 21:47:07\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in EXECUTE("SELECT gu.act_order, u.user_id, u.name, gu.user_cash, gu.is_holder  
+                   FROM `m_gsession_user` gu, `m_user` u
+                  WHERE gu.gsession_id = 27 
+		  and gu.user_id=u.user_id and gu.is_active=true and gu.user_id != ")
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): adodb_throw('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT gu.act_o...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT gu.act_o...', false)
+#2 /var/www/html/mon/core/core.php(64): ADOConnection->Execute('SELECT gu.act_o...')
+#3 /var/www/html/mon/core/core.php(1157): DbQuery('SELECT gu.act_o...', '<option value="...', '', false)
+#4 /var/www/html/mon/board.php(700): GSession->GetUserOponentList(NULL, '<option value="...')
+#5 /var/www/html/mon/page_main.php(18): include('/var/www/html/m...')
+#6 /var/www/html/mon/index.php(25): include('/var/www/html/m...')
+#7 {main}
+26/09/2012 21:47:08\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5] in EXECUTE("SELECT gfg.fgroup_id, mg.fgroup_name, gfg.fgparam fgparam, CONCAT('x',gfg.fgparam) fgmult, 
+		(select sum(gf.fparam) fgcost from m_gsession_map_field gf where gf.gsession_id=27 and gf.fgroup_id=gfg.fgroup_id) fgcost  
+		from m_gsession_map_fgroup gfg
+		left join m_cfg_map_fgroup mg on gfg.fgroup_id=mg.fgroup_id
+		where gfg.gsession_id=27 and gfg.fgowner_user_id = ")
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): adodb_throw('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT gfg.fgro...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT gfg.fgro...', false)
+#2 /var/www/html/mon/core/core.php(64): ADOConnection->Execute('SELECT gfg.fgro...')
+#3 /var/www/html/mon/core/core.php(1188): DbQuery('SELECT gfg.fgro...', '<tr><td>%FGROUP...', '', false)
+#4 /var/www/html/mon/boardjson.php(48): GSession->GetUserMonopolyList(NULL, '<tr><td>%FGROUP...')
+#5 {main}

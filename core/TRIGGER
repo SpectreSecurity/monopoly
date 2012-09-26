@@ -1,0 +1,8 @@
+begin 
+DECLARE x INT;
+SET x = (SELECT GET_LOCK(CONCAT('m$gs', NEW.gsession_id),0)); 
+IF (x=1) THEN 
+update m_gsession set last_updated = current_timestamp 
+where gsession_id=NEW.gsession_id;
+END IF;
+end
