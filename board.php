@@ -60,6 +60,9 @@ function GetNextColor() {
 	//lastupdated
 	var lastupdated='';
 	var gturn=0;
+	var refresh_running=false;
+	var first_refresh=true;
+	var gameover=false;
 
 	function DoAction() {
 	$.ajaxSetup({cache: false});
@@ -231,16 +234,39 @@ function GetNextColor() {
 	}
 
 	function AutoRefresh(){
+		if (!refresh_running) {
+			refresh_running = true;
 	//	if ($( "#dialog_loading" ).dialog( "isOpen" )) {$( "#progressbar" ).progressbar( "option", "value", 30 );}
 		$.getJSON('boardjson.php?gs_id=<?php echo $gsession_id; ?>&user_id=<?php echo $current_user_id; ?>&lastupdated='+lastupdated, function(data) {	
+			if (first_refresh) {
+				first_refresh=false;
+	            $.unblockUI();
+			}
 		//var active = $( "#auctions" ).accordion( "option", "active" );
 	//	if ($( "#dialog_loading" ).dialog( "isOpen" )) {$( "#progressbar" ).progressbar( "option", "value", 60 );}
 	$.each(data, function(key, val) {
 		if (key=='lastupdated') {lastupdated = val;}
 		if (key=="gturn") { gturn=val;} 
+		if ((key=="gstatus")&&("2"==val)) {
+			//$.blockUI({ message: '<h1>Game over</h1>' });
+			if (!gameover) {
+             	$('#board').block({ 
+		                message: '<h1>Game over</h1>', 
+		                css: { border: '3px solid #a00',
+		                	   cursor: null } 
+	            }); 
+	            gameover=true;
+            }
+		}
         var txt = new String(key);
         if (key=="refreshtimeout") {
-        	rtime=val;
+							if (rtime != val) {
+								rtime = val;
+								clearInterval(t);
+								t = setInterval(function() {
+									AutoRefresh();
+								}, rtime);
+							}
 		} else if (txt.substr(0,6)=="log_id"){
 			if ($("#"+key).length) {
 				$("#"+key).replaceWith(val);
@@ -273,7 +299,8 @@ function GetNextColor() {
     // $( "#auctions" ).accordion({ active: active }); 
     //	if ($( "#dialog_loading" ).dialog( "isOpen" )) { $( "#dialog_loading" ).dialog( "close" );}
 	});
-	
+			refresh_running = false;
+	}	
 	}
 
 
@@ -303,7 +330,6 @@ function GetNextColor() {
 		
 
 /**/
-AutoRefresh();
 		//$(function() {
 		//   $( "#auctions" ).accordion();
 	    //});
@@ -314,6 +340,8 @@ AutoRefresh();
 	//	 $("#dialog_deal_start").dialog({ autoOpen: false });
 	//});
 	$(function() {
+		$.blockUI({ message: '<h1><img src="images/busy.gif" /> Loading...</h1>' });
+		AutoRefresh();
 		$( "#create-deal" )
 			.button()
 			.click(function() {

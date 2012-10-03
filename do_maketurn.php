@@ -14,9 +14,9 @@ $action = us_GetCurrentAction();
 
 //try {
 /**/
-
-if ($gsession -> HolderMakeTurn()) {
-//if ($gsession -> UserMakeTurn($user_id)) {
+$user_id = $gsession -> GetHolderUserId();
+//if ($gsession -> HolderMakeTurn()) {
+if ($gsession -> UserMakeTurn($user_id)) {
 	echo '<br>' . "Turn done!";
 
 } else {

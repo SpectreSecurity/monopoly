@@ -31,8 +31,8 @@ function us_GetCurrentGSessionId() {
 	return $gsession_id;
 }
 
-function us_GetGStatus() {
-  	return gpc_get_string("gstatus",NULL); 
+function us_GetGState() {
+  	return gpc_get_string("gstate",NULL); 
 }
 
 function us_GetWAction() {

@@ -15,7 +15,19 @@ header('Content-Type: text/javascript; charset=utf8');
 //header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 $arr = array();
 
+$arr["gstatus"] = $gsession->gstatus;
+
+if ($gsession->IsStarted()) {
 $arr["refreshtimeout"] = 3000;
+} else {
+$arr["refreshtimeout"] = 30000;
+}
+
+$dtimeout=$gsession->GetDebitorTimeout($current_user_id);
+if ($dtimeout>0) {
+	$diceinfo_tpl = "Left $dtimeout sec";
+	$arr["dice"] = $diceinfo_tpl;
+}
 
 $log_tpl = "<div id='log_id%LOG_ID%' class='msgln'>%DATESTAMP%-%NAME%-%ACTION_DESC%</div>";
 //$actlog=$gsession -> GetLastActions(30, $current_user_id, $log_tpl, $dblasttime);
@@ -34,6 +46,7 @@ $msg_arr= $gsession ->GetLastMsgArray(30, $current_user_id, $msg_tpl, $dblasttim
 $arr = array_merge ($arr, $msg_arr);
 
 if ($gsession ->HasChanges($dblasttime)) {
+$arr["gstate"] = $gsession->gstate;
 $arr["gturn"] = $gsession->GetGTurn();	
 
 //$userinfo = "User:<b>" . GetUserName($current_user_id) . "</b>";
@@ -123,8 +136,10 @@ $auct_lot_tpl = "<div class='auctionlot lots' id='auctlot_%AUCT_ID%'> <div class
 //$arr["auctbox"] = str_replace('%ROWS%', $gsession -> GetOpenedAuctionsList($current_user_id, $auct_lot_tpl), $auct_tpl);
 $auct_arr = $gsession -> GetChangedAuctionListArray($current_user_id, $auct_lot_tpl, $dblasttime, 'auctlot_%AUCT_ID%', NULL, G_AU_AUCT_STATUS_ACTIVE); 
 $arr = array_merge ($arr, $auct_arr);
+if ($dblasttime!=NULL) {
 $auct_arr = $gsession -> GetChangedAuctionListArray($current_user_id, NULL, $dblasttime, 'auctlot_%AUCT_ID%', NULL, G_AU_AUCT_STATUS_INACTIVE); 
 $arr = array_merge ($arr, $auct_arr);
+}
 
 $auct_lot_subrow_tpl = "%USER_NAME% %LAST_BID%</br>";
 /*$rs = $gsession -> GetOpenedAuctionsSet($current_user_id);
@@ -155,9 +170,10 @@ $deal_lot_receive_tpl = "%FIELD_NAME%";
 $deal_arr = $gsession -> GetChangedDealListArray($current_user_id, $deal_tpl, $dblasttime, 'deallot_%DEAL_ID%', NULL, G_AU_AUCT_STATUS_ACTIVE, '%DEALITEMS_GIVE%', $deal_lot_give_tpl, '%DEALITEMS_RECEIVE%', $deal_lot_receive_tpl, true, ','); 
 $arr = array_merge ($arr, $deal_arr);
 
+if ($dblasttime!=NULL) {
 $deal_arr = $gsession -> GetChangedDealListArray($current_user_id, NULL, $dblasttime, 'deallot_%DEAL_ID%', NULL, G_DL_DEAL_STATUS_INACTIVE); 
 $arr = array_merge ($arr, $deal_arr);
-
+}
 
 
 /*$rs = $gsession -> GetOpenedAuctionsSet($current_user_id);

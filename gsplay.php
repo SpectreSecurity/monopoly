@@ -9,13 +9,16 @@ $current_user_name = GetUserName($current_user_id);
 
 
 if ($gsession -> CanPlayUser($current_user_id)) {
-	if ($gsession -> gstatus == G_GS_GSTATUS_CREATED) {
+	if ($gsession -> gstate == G_GS_GSTATE_CREATED) {
 		include ('page_wait.php');
-	} else if ($gsession -> gstatus == G_GS_GSTATUS_STARTED) {
+	} else if ($gsession -> gstate == G_GS_GSTATE_STARTED) {
 		include ('page_main.php');
 	} else {
-		die;
+		DIE;
 	}
 
+} ELSE {
+//		include ('page_main.php');
 }
+
 ?>

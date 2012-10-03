@@ -1,61 +1,438 @@
-26/09/2012 19:22:42\nmysqlt error: [1690: BIGINT UNSIGNED value is out of range in '(`monopoly`.`m_gsession_user`.`user_cash` - 13349213689524623000)'] in adodb_throw(update m_gsession_user set user_cash=user_cash-13349213689524623000
-where user_id=2 and gsession_id=6, )
-#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1690, 'BIGINT UNSIGNED...', 'update m_gsessi...', false, Object(ADODB_mysqlt))
-#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1690, 'BIGINT UNSIGNED...', 'update m_gsessi...', false, Object(ADODB_mysqlt))
+27/09/2012 22:02:04\nmysqlt error: [1213: Deadlock found when trying to get lock; try restarting transaction] in adodb_throw(update m_gsession_user u1, m_gsession_user u2 set u1.user_cash=u1.user_cash-75000, u2.user_cash=u2.user_cash+75000
+where u1.user_id='2' and u1.gsession_id=22 and u2.user_id='1' and u2.gsession_id=22
+, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1213, 'Deadlock found ...', 'update m_gsessi...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1213, 'Deadlock found ...', 'update m_gsessi...', false, Object(ADODB_mysqlt))
 #2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('update m_gsessi...', false)
 #3 /var/www/html/mon/core/core.php(112): ADOConnection->Execute('update m_gsessi...')
-#4 /var/www/html/mon/core/core.php(833): DbSQL('update m_gsessi...')
-#5 /var/www/html/mon/core/core.php(875): GSession->HolderDoAction('13', 'onsite')
-#6 /var/www/html/mon/core/core.php(980): GSession->HolderDoOnsiteAction('13')
-#7 /var/www/html/mon/do_maketurn.php(18): GSession->HolderMakeTurn()
-#8 {main}
-26/09/2012 19:25:24\nmysqlt error: [1690: BIGINT UNSIGNED value is out of range in '(`monopoly`.`m_gsession_user`.`user_cash` - 14664813687357417000)'] in adodb_throw(update m_gsession_user set user_cash=user_cash-14664813687357417000
-where user_id=2 and gsession_id=6, )
-#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1690, 'BIGINT UNSIGNED...', 'update m_gsessi...', false, Object(ADODB_mysqlt))
-#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1690, 'BIGINT UNSIGNED...', 'update m_gsessi...', false, Object(ADODB_mysqlt))
-#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('update m_gsessi...', false)
-#3 /var/www/html/mon/core/core.php(112): ADOConnection->Execute('update m_gsessi...')
-#4 /var/www/html/mon/core/core.php(833): DbSQL('update m_gsessi...')
-#5 /var/www/html/mon/core/core.php(875): GSession->HolderDoAction('13', 'onsite')
-#6 /var/www/html/mon/core/core.php(980): GSession->HolderDoOnsiteAction('13')
-#7 /var/www/html/mon/do_maketurn.php(18): GSession->HolderMakeTurn()
-#8 {main}
-26/09/2012 21:11:51\nmysqlt error: [1062: Duplicate entry '2012-09-26 21:11:51' for key 'watch_stamp'] in adodb_throw(Update `m_watchdog` set `wstatus`= 'finished', watch_stamp = CURRENT_TIMESTAMP, wend_stamp = CURRENT_TIMESTAMP, wspend=46.347315073013  where w_id=129579, )
-#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1062, 'Duplicate entry...', 'Update `m_watch...', false, Object(ADODB_mysqlt))
-#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1062, 'Duplicate entry...', 'Update `m_watch...', false, Object(ADODB_mysqlt))
-#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('Update `m_watch...', false)
-#3 /var/www/html/mon/core/core.php(112): ADOConnection->Execute('Update `m_watch...')
-#4 /var/www/html/mon/core/watchdog.php(213): DbSQL('Update `m_watch...')
-#5 /var/www/html/mon/core/rwatchdog.php(9): WatchDog()
-#6 {main}
-26/09/2012 21:11:51\nmysqlt error: [1062: Duplicate entry '2012-09-26 21:11:51' for key 'watch_stamp'] in adodb_throw(Update `m_watchdog` set `wstatus`= 'finished', watch_stamp = CURRENT_TIMESTAMP, wend_stamp = CURRENT_TIMESTAMP, wspend=90.54318189621  where w_id=129578, )
-#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1062, 'Duplicate entry...', 'Update `m_watch...', false, Object(ADODB_mysqlt))
-#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1062, 'Duplicate entry...', 'Update `m_watch...', false, Object(ADODB_mysqlt))
-#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('Update `m_watch...', false)
-#3 /var/www/html/mon/core/core.php(112): ADOConnection->Execute('Update `m_watch...')
-#4 /var/www/html/mon/core/watchdog.php(213): DbSQL('Update `m_watch...')
-#5 /var/www/html/mon/core/rwatchdog.php(9): WatchDog()
-#6 {main}
-26/09/2012 21:47:07\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in EXECUTE("SELECT gu.act_order, u.user_id, u.name, gu.user_cash, gu.is_holder  
-                   FROM `m_gsession_user` gu, `m_user` u
-                  WHERE gu.gsession_id = 27 
-		  and gu.user_id=u.user_id and gu.is_active=true and gu.user_id != ")
-#0 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): adodb_throw('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT gu.act_o...', false, Object(ADODB_mysqlt))
-#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT gu.act_o...', false)
-#2 /var/www/html/mon/core/core.php(64): ADOConnection->Execute('SELECT gu.act_o...')
-#3 /var/www/html/mon/core/core.php(1157): DbQuery('SELECT gu.act_o...', '<option value="...', '', false)
-#4 /var/www/html/mon/board.php(700): GSession->GetUserOponentList(NULL, '<option value="...')
-#5 /var/www/html/mon/page_main.php(18): include('/var/www/html/m...')
-#6 /var/www/html/mon/index.php(25): include('/var/www/html/m...')
+#4 /var/www/html/mon/core/core.php(937): DbSQL('update m_gsessi...')
+#5 /var/www/html/mon/core/core.php(979): GSession->HolderDoAction('12', 'onsite')
+#6 /var/www/html/mon/core/core.php(1084): GSession->HolderDoOnsiteAction('12')
+#7 /var/www/html/mon/core/core.php(826): GSession->HolderMakeTurn()
+#8 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#9 {main}
+28/09/2012 12:21:27\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 16 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(603): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(891): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(979): GSession->HolderDoAction('22', 'onsite')
+#7 /var/www/html/mon/core/core.php(1084): GSession->HolderDoOnsiteAction('22')
+#8 /var/www/html/mon/core/core.php(826): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+28/09/2012 12:21:40\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 16 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(603): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(891): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(979): GSession->HolderDoAction('14', 'onsite')
+#7 /var/www/html/mon/core/core.php(1084): GSession->HolderDoOnsiteAction('14')
+#8 /var/www/html/mon/core/core.php(826): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+29/09/2012 04:27:58\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1005): GSession->HolderDoAction('1', 'onfly')
+#7 /var/www/html/mon/core/core.php(1096): GSession->HolderDoOnflyAction('1')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+29/09/2012 04:28:33\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('22', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('22')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+29/09/2012 04:28:55\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1005): GSession->HolderDoAction('1', 'onfly')
+#7 /var/www/html/mon/core/core.php(1096): GSession->HolderDoOnflyAction('1')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+30/09/2012 03:49:29\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1005): GSession->HolderDoAction('1', 'onfly')
+#7 /var/www/html/mon/core/core.php(1096): GSession->HolderDoOnflyAction('1')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+30/09/2012 03:50:49\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('29', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('29')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+30/09/2012 03:51:12\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('16', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('16')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+30/09/2012 03:51:23\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('26', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('26')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+30/09/2012 03:51:41\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('21', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('21')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+30/09/2012 03:53:41\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1005): GSession->HolderDoAction('1', 'onfly')
+#7 /var/www/html/mon/core/core.php(1096): GSession->HolderDoOnflyAction('1')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+30/09/2012 03:53:56\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1005): GSession->HolderDoAction('1', 'onfly')
+#7 /var/www/html/mon/core/core.php(1096): GSession->HolderDoOnflyAction('1')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+30/09/2012 03:54:17\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('13', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('13')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+30/09/2012 03:54:28\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1005): GSession->HolderDoAction('1', 'onfly')
+#7 /var/www/html/mon/core/core.php(1096): GSession->HolderDoOnflyAction('1')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+30/09/2012 03:55:09\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+					   AND is_active = true and gsession_id = 27 
+					    and (if(has_pena' at line 12] in adodb_throw(SELECT user_id 
+				FROM   m_gsession_user 
+				WHERE  act_order IN (SELECT Ifnull(Min(act_order), (SELECT Min(act_order) 
+                				                                    FROM   m_gsession_user 
+                                				                    WHERE  gsession_id = 27
+																	AND is_active = true
+																	 and (if(has_penalty=1, ifnull(penalty_turn,0),0))< 26616)) 
+                     FROM   m_gsession_user 
+                     WHERE  act_order > (SELECT act_order 
+                                         FROM   m_gsession_user 
+                                         WHERE  gsession_id = 27 
+                                                AND user_id = )
+					   AND is_active = true and gsession_id = 27 
+					    and (if(has_penalty=1, ifnull(penalty_turn,0),0))< 26616) and gsession_id = 27 , )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT user_id ...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT user_id ...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT user_id ...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT user_id ...')
+#4 /var/www/html/mon/core/core.php(1027): DbGetValue('SELECT user_id ...')
+#5 /var/www/html/mon/core/core.php(1038): GSession->GetNextUser(NULL, true)
+#6 /var/www/html/mon/core/core.php(1152): GSession->GetNextTurnPlayer()
+#7 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#8 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#9 {main}
+30/09/2012 03:55:31\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 27 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('12', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('12')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+30/09/2012 21:09:32\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 34 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('22', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('22')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+30/09/2012 22:24:27\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 34 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('31', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('31')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+30/09/2012 22:39:10\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 34 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('17', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('17')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+30/09/2012 22:39:33\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 34 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('16', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('16')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+30/09/2012 22:39:44\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 34 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('18', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('18')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+30/09/2012 22:42:28\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 34 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('27', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('27')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+30/09/2012 22:47:23\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 34 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1005): GSession->HolderDoAction('1', 'onfly')
+#7 /var/www/html/mon/core/core.php(1096): GSession->HolderDoOnflyAction('1')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+30/09/2012 22:47:36\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 34 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1005): GSession->HolderDoAction('1', 'onfly')
+#7 /var/www/html/mon/core/core.php(1096): GSession->HolderDoOnflyAction('1')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+30/09/2012 22:48:28\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 34 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1009): GSession->HolderDoAction('13', 'onsite')
+#7 /var/www/html/mon/core/core.php(1114): GSession->HolderDoOnsiteAction('13')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('1')
+#10 {main}
+30/09/2012 22:55:41\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4] in adodb_throw(SELECT IFNULL(sum(gm.fparam),0)
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = 34 
+		  and gm.owner_user_id=, )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT IFNULL(s...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT IFNULL(s...', false)
+#3 /var/www/html/mon/core/core.php(100): ADOConnection->Execute('SELECT IFNULL(s...')
+#4 /var/www/html/mon/core/core.php(618): DbGetValue('SELECT IFNULL(s...')
+#5 /var/www/html/mon/core/core.php(921): GSession->GetUserProperty(NULL)
+#6 /var/www/html/mon/core/core.php(1005): GSession->HolderDoAction('1', 'onfly')
+#7 /var/www/html/mon/core/core.php(1096): GSession->HolderDoOnflyAction('1')
+#8 /var/www/html/mon/core/core.php(856): GSession->HolderMakeTurn()
+#9 /var/www/html/mon/do_maketurn.php(19): GSession->UserMakeTurn('2')
+#10 {main}
+01/10/2012 21:21:55\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' TRUE,FALSE,FALSE,10000,1)' at line 4] in adodb_throw(INSERT INTO `m_gsession_user`
+		(`gsession_id`, `user_id`, `is_active`, `is_holder`, `has_penalty`, `user_cash`, `position_field_id`) 
+		VALUES 
+		(37,, TRUE,FALSE,FALSE,10000,1), )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'INSERT INTO `m_...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'INSERT INTO `m_...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('INSERT INTO `m_...', false)
+#3 /var/www/html/mon/core/db_api.php(88): ADOConnection->Execute('INSERT INTO `m_...')
+#4 /var/www/html/mon/core/gsession.php(434): DbSQL('INSERT INTO `m_...')
+#5 /var/www/html/mon/gscreate.php(13): GSession->AssignUser(NULL)
+#6 /var/www/html/mon/index.php(21): include('/var/www/html/m...')
 #7 {main}
-26/09/2012 21:47:08\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5] in EXECUTE("SELECT gfg.fgroup_id, mg.fgroup_name, gfg.fgparam fgparam, CONCAT('x',gfg.fgparam) fgmult, 
-		(select sum(gf.fparam) fgcost from m_gsession_map_field gf where gf.gsession_id=27 and gf.fgroup_id=gfg.fgroup_id) fgcost  
-		from m_gsession_map_fgroup gfg
-		left join m_cfg_map_fgroup mg on gfg.fgroup_id=mg.fgroup_id
-		where gfg.gsession_id=27 and gfg.fgowner_user_id = ")
-#0 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): adodb_throw('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'SELECT gfg.fgro...', false, Object(ADODB_mysqlt))
-#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('SELECT gfg.fgro...', false)
-#2 /var/www/html/mon/core/core.php(64): ADOConnection->Execute('SELECT gfg.fgro...')
-#3 /var/www/html/mon/core/core.php(1188): DbQuery('SELECT gfg.fgro...', '<tr><td>%FGROUP...', '', false)
-#4 /var/www/html/mon/boardjson.php(48): GSession->GetUserMonopolyList(NULL, '<tr><td>%FGROUP...')
-#5 {main}
+01/10/2012 21:48:40\nmysqlt error: [1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' TRUE,FALSE,FALSE,10000,1)' at line 4] in adodb_throw(INSERT INTO `m_gsession_user`
+		(`gsession_id`, `user_id`, `is_active`, `is_holder`, `has_penalty`, `user_cash`, `position_field_id`) 
+		VALUES 
+		(38,, TRUE,FALSE,FALSE,10000,1), )
+#0 /var/www/html/mon/core/adodb5/adodb.inc.php(257): adodb_throw('mysqlt', 'adodb_throw', 1064, 'You have an err...', 'INSERT INTO `m_...', false, Object(ADODB_mysqlt))
+#1 /var/www/html/mon/core/adodb5/adodb.inc.php(1072): ADODB_TransMonitor('mysqlt', 'EXECUTE', 1064, 'You have an err...', 'INSERT INTO `m_...', false, Object(ADODB_mysqlt))
+#2 /var/www/html/mon/core/adodb5/adodb.inc.php(1047): ADOConnection->_Execute('INSERT INTO `m_...', false)
+#3 /var/www/html/mon/core/db_api.php(88): ADOConnection->Execute('INSERT INTO `m_...')
+#4 /var/www/html/mon/core/gsession.php(434): DbSQL('INSERT INTO `m_...')
+#5 /var/www/html/mon/gscreate.php(13): GSession->AssignUser(NULL)
+#6 /var/www/html/mon/index.php(21): include('/var/www/html/m...')
+#7 {main}

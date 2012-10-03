@@ -6,7 +6,7 @@ $current_user_id = GetCurrentUserId();
 $current_user_name = GetUserName($current_user_id);
 $dblasttime = us_GetCurrentLastUpdated();
 $dbstarttime = DbTimeStamp();
-$gstatus = us_GetGStatus();
+$gstate = us_GetGState();
 $waction = us_GetWAction();
 header('Content-Type: text/javascript; charset=utf8');
 //header('Access-Control-Allow-Origin: http://www.example.com/');
@@ -18,19 +18,19 @@ $arr = array();
 $arr["debug"] = $current_user_id;
 
 
-$gs_join_tpl = "<div id='gs_id%GSESSION_ID%".'el'.$gstatus."' class='msgln'>%GSESSION_ID% %MAP_NAME% %STARTSTAMP% %GTURN% %LAST_UPDATED% <a href='/mon/index.php?action=gs%ACTION%&gs_id=%GSESSION_ID%'>%ACTION%</a></div>";
-$gs_view_tpl = "<div id='gs_id%GSESSION_ID%".'el'.$gstatus."' class='msgln'>%GSESSION_ID% %MAP_NAME% %STARTSTAMP% %LAST_UPDATED% <a href='/mon/index.php?action=gsview&gs_id=%GSESSION_ID%'>view</a></div>";
+$gs_join_tpl = "<div id='gs_id%GSESSION_ID%".'el'.$gstate."' class='msgln'>%GSESSION_ID% %MAP_NAME% %STARTSTAMP% %GTURN% %LAST_UPDATED% <a href='/mon/index.php?action=gs%ACTION%&gs_id=%GSESSION_ID%'>%ACTION%</a></div>";
+$gs_view_tpl = "<div id='gs_id%GSESSION_ID%".'el'.$gstate."' class='msgln'>%GSESSION_ID% %MAP_NAME% %STARTSTAMP% %LAST_UPDATED% <a href='/mon/index.php?action=gsview&gs_id=%GSESSION_ID%'>view</a></div>";
 
 //$canjoin=CanGSesssionJoinUser(
 
 $gs_tpl = $waction=='wact_play'? $gs_join_tpl:$gs_view_tpl;
-$gstatus = $gstatus==NULL?G_GS_STATUS_STARTED:$gstatus;
-$gs_arr = GetChangedGSessionListArray(100, $current_user_id, $gs_tpl, 'gs_id%GSESSION_ID%'.'el'.$gstatus, $gstatus, $dblasttime);
+$gstate = $gstate==NULL?G_GS_GSTATE_STARTED:$gstate;
+$gs_arr = GetChangedGSessionListArray(100, $current_user_id, $gs_tpl, 'gs_id%GSESSION_ID%'.'el'.$gstate, $gstate, $dblasttime);
 $arr = array_merge($arr, $gs_arr);
 
 if ($dblasttime!=NULL) {
 $gs_del_tpl ='';
-$gs_arr = GetChangedGSessionListArray(100, $current_user_id, $gs_del_tpl, 'gs_id%GSESSION_ID%'.'el'.$gstatus, $gstatus, $dblasttime, true);
+$gs_arr = GetChangedGSessionListArray(100, $current_user_id, $gs_del_tpl, 'gs_id%GSESSION_ID%'.'el'.$gstate, $gstate, $dblasttime, true);
 $arr = array_merge($arr, $gs_arr);
 }
 

@@ -1,92 +1,4 @@
 <?php
-function StartTimer($timername) {
-	global $G_TIMERS;
-	if (isset($G_TIMERS)) {
-		$G_TIMERS = array();
-	}
-	#---------
-	$mtime = microtime();
-	$mtime = explode(" ", $mtime);
-	$mtime = $mtime[1] + $mtime[0];
-	$tstart = $mtime;
-	#---------
-	$G_TIMERS[$timername] = $tstart;
-}
-
-function GetTimer($timername) {
-	global $G_TIMERS;
-	if (isset($G_TIMERS[$timername])) {
-		$tstart = $G_TIMERS[$timername];
-
-		$mtime = microtime();
-		$mtime = explode(" ", $mtime);
-		$mtime = $mtime[1] + $mtime[0];
-		$tend = $mtime;
-		//Calculate the difference
-		$totaltime = $tend - $tstart;
-		return $totaltime;
-	}
-}
-
-function DbLock($lockname, $timeout = 5) {
-	return DbGetValue("SELECT GET_LOCK('m$" . $lockname . "', $timeout); ") == 1;
-}
-
-function DbLockFree($lockname) {
-	return DbGetValue("SELECT IS_FREE_LOCK('m$" . $lockname . "'); ") == 1;
-}
-
-function DbIsLocked($lockname) {
-	return !DbLockFree($lockname);
-}
-
-function DbUnlock($lockname) {
-	return DbGetValue("SELECT  RELEASE_LOCK('m$" . $lockname . "'); ") == 1;
-}
-
-function gsession_lock_updates($gsession_id) {
-	return DbLock("gs$gsession_id");
-}
-
-function gsession_unlock_updates($gsession_id) {
-	return DbUnlock("gs$gsession_id");
-}
-
-function auction_lock_updates($auct_id) {
-	return DbLock("lock_auct_id_$auct_id");
-}
-
-function auction_isnotlocked($auct_id) {
-	return DbLockFree("lock_auct_id_$auct_id");
-}
-
-function auction_unlock_updates($auct_id) {
-	return DbUnlock("lock_auct_id_$auct_id");
-}
-
-function deal_lock_updates($deal_id) {
-	return DbLock("lock_deal_id_$deal_id");
-}
-
-function deal_isnotlocked($deal_id) {
-	return DbLockFree("lock_deal_id_$deal_id");
-}
-
-function deal_unlock_updates($deal_id) {
-	return DbUnlock("lock_deal_id_$deal_id");
-}
-
-function gs_turn_unlock_updates($gsession_id) {
-	return DbUnlock("lock_turn_gsession_id_$gsession_id");
-}
-
-function gs_turn_lock_updates($gsession_id) {
-	return DbLock("lock_turn_gsession_id_$gsession_id");
-}
-
-function gs_turn_isnotlocked($gsession_id) {
-	return DbLockFree("lock_turn_gsession_id_$gsession_id");
-}
 
 /*function Close_timeouted_auctions_by_gs_id($gsession_id) {
  if ($gsession_id != NULL) {
@@ -152,10 +64,15 @@ function Close_timeouted_deals(&$gsession) {
 }
 function GsessionManageStarted($gsession_id) {
 	LogCritical('GsessionManageStarted '.$gsession_id, 'wd');
-			$gsession = new GSession();
-			$gsession -> Load($gsession_id);
-			Close_timeouted_auctions($gsession);
-			Close_timeouted_deals($gsession);
+	$gsession = new GSession();
+	$gsession -> Load($gsession_id);
+	Close_timeouted_auctions($gsession);
+	Close_timeouted_deals($gsession);
+	$gsession -> ManageDebtors();
+	if ($gsession -> CanFinish()) {
+		$gsession -> Finish();
+		LogCritical('Finished '.$gsession_id, 'wd');
+	}
 }
 
 function GsessionManageCreated($gsession_id) {
@@ -178,7 +95,7 @@ function GsessionManageCreated($gsession_id) {
 
 function WatchDogJobs() {
 	try {
-		$rs = DbGetValueSet("select gsession_id from m_gsession gs where gstatus=" . G_GS_GSTATUS_STARTED);
+		$rs = DbGetValueSet("select gsession_id from m_gsession gs where gstate=" . G_GS_GSTATE_STARTED);
 		foreach ($rs as $row) {
 			$gsession_id = $row['gsession_id'];
             GsessionManageStarted($gsession_id);
@@ -187,7 +104,7 @@ function WatchDogJobs() {
         echo 'Caught exception: ',  $ex->getMessage(), "\n";
 	}
 	try {
-		$rs = DbGetValueSet("select gsession_id from m_gsession gs where gstatus=" . G_GS_GSTATUS_CREATED);
+		$rs = DbGetValueSet("select gsession_id from m_gsession gs where gstate=" . G_GS_GSTATE_CREATED);
 		foreach ($rs as $row) {
 			$gsession_id = $row['gsession_id'];
 	        GsessionManageCreated($gsession_id);

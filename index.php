@@ -22,7 +22,7 @@ switch ($action) {
 		break;
 	case 'gsview' :
 		$G_MODE = G_MODE_VIEW;
-		include ('page_main.php');
+		include ('gsview.php');
 		break;
 	case 'gsjoin' :
 		//$G_MODE = G_MODE_PLAY;
