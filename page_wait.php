@@ -8,7 +8,7 @@
 		<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.8.23.custom.min.js"></script>
 
-		<link rel="stylesheet" href="mon2.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="css/mon2.css" type="text/css" media="screen" />
 
 	</head>
 	<body>

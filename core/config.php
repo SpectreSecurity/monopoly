@@ -1,9 +1,9 @@
 <?php
 
-define("G_DB_HOST","wenter");
+define("G_DB_HOST","localhost");
 define("G_DB_NAME","monopoly");
 define("G_DB_USER","monopoly");
-define("G_DB_PASSWORD","xsw2zaq1");
+define("G_DB_PASSWORD","cde321qazxsw");
 
 
 define("G_GS_MIN_PLAYERS","2");

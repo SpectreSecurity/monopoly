@@ -118,7 +118,7 @@ function WatchDog() {
 	if (DbLockFree("watchdog")) {
 		if (DbLock("watchdog", 1)) {
 			$watchdog_timeago = DbGetValue("select TIMESTAMPDIFF(SECOND,watch_stamp,CURRENT_TIMESTAMP) from `m_watchdog` order by w_id desc limit 0,1 ");
-			if ($watchdog_timeago > G_WATCHDOG_PERIOD) {
+			if (($watchdog_timeago==NULL)||($watchdog_timeago > G_WATCHDOG_PERIOD)) {
 				DbStartTrans();
 				$w_id = DbINSERT("INSERT INTO  `m_watchdog` (`wstatus`, wstart_stamp ) VALUES ( 'inprogress', CURRENT_TIMESTAMP)");
 				DbCompleteTrans();

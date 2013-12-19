@@ -1,5 +1,6 @@
 <?php
 require_once ('core/core.php');
+
 ConnectDB();
 //WatchDog();
 $current_user_id = GetCurrentUserId();
@@ -10,6 +11,7 @@ $G_MODE = us_GetCurrentGMode();
 $dblasttime = us_GetCurrentLastUpdated();
 $dbstarttime = DbTimeStamp();
 
+
 if (!$current_user_id) {
 	if ($G_MODE == G_MODE_VIEW) {
 		$current_user_id = 0;
@@ -17,6 +19,11 @@ if (!$current_user_id) {
 		die ;
 	}
 };
+
+require_once ('tpl/board_tpl.php');
+//-----------------------------------------------------------------------------------------------
+// Start
+//-----------------------------------------------------------------------------------------------
 header('Content-Type: text/javascript; charset=utf8');
 //header('Access-Control-Allow-Origin: http://www.example.com/');
 //header('Access-Control-Max-Age: 3628800');
@@ -37,20 +44,20 @@ if ($G_MODE == G_MODE_PLAY) {
 		$arr["dice"] = $diceinfo_tpl;
 	}
 }
-$log_tpl = "<div id='log_id%LOG_ID%' class='msgln'>%DATESTAMP%-%NAME%-%ACTION_DESC%</div>";
+//tpl: $log_tpl = "<div id='log_id%LOG_ID%' class='msgln'>%DATESTAMP%-%NAME%-%ACTION_DESC%</div>";
 //$actlog=$gsession -> GetLastActions(30, $current_user_id, $log_tpl, $dblasttime);
 //if ($actlog!=NULL) {
 //$arr["actlog"] = "Last actions</br>" . $actlog;
 //}
-$log_arr = $gsession -> GetLastLogArray(30, $current_user_id, $log_tpl, $dblasttime);
+$log_arr = $gsession -> GetLastLogArray(30, $current_user_id, $g_log_tpl, $dblasttime);
 $arr = array_merge($arr, $log_arr);
 
-$msg_tpl = "<div id='msg_id%MSG_ID%' class='msgln'>%DATESTAMP%-%MSG_TEXT%</div>";
+//tpl: $msg_tpl = "<div id='msg_id%MSG_ID%' class='msgln'>%DATESTAMP%-%MSG_TEXT%</div>";
 //$gmsgbox=$gsession -> GetLastMessages(30, $current_user_id, $msg_tpl, $dblasttime);
 //if ($gmsgbox!=NULL) {
 //$arr["gmsgbox"] = $gmsgbox;
 //}
-$msg_arr = $gsession -> GetLastMsgArray(30, $current_user_id, $msg_tpl, $dblasttime);
+$msg_arr = $gsession -> GetLastMsgArray(30, $current_user_id, $g_msg_tpl, $dblasttime);
 $arr = array_merge($arr, $msg_arr);
 
 if ($gsession -> HasChanges($dblasttime)) {
@@ -65,18 +72,18 @@ if ($gsession -> HasChanges($dblasttime)) {
 	 $arr["userinfo"] = str_replace('%userprop%', $gsession -> GetUserProp($current_user_id, $userprop_tpl), $userinfo_tpl);
 	 * */
 	if ($G_MODE == G_MODE_PLAY) {
-		$usermonopoly_tpl = "Monopolies: <table>%userprop%</table>";
-		$userprop_tpl = '<tr><td>%FGROUP_NAME%</td><td>%FGCOST%</td><td>%FGMULT%</td><td><button class="button" id="btn_mon_up_%FGROUP_ID%" onclick="DoUpFGroup(%FGROUP_ID%)">+</button></td><td><button class="button" id="btn_mon_down_%FGROUP_ID%" onclick="DoDownFGroup(%FGROUP_ID%)">-</button></td></tr>';
-		$arr["usermonopoly"] = str_replace('%userprop%', $gsession -> GetUserMonopolyList($current_user_id, $userprop_tpl), $usermonopoly_tpl);
+		//tpl: $usermonopoly_tpl = "Monopolies: <table>%userprop%</table>";
+		//tpl: $userprop_tpl = '<tr><td>%FGROUP_NAME%</td><td>%FGCOST%</td><td>%FGMULT%</td><td><button class="button" id="btn_mon_up_%FGROUP_ID%" onclick="DoUpFGroup(%FGROUP_ID%)">+</button></td><td><button class="button" id="btn_mon_down_%FGROUP_ID%" onclick="DoDownFGroup(%FGROUP_ID%)">-</button></td></tr>';
+		$arr["usermonopoly"] = str_replace('%userprop%', $gsession -> GetUserMonopolyList($current_user_id, $g_userprop_tpl), $g_usermonopoly_tpl);
 
-		$userinfo_tpl = "User:<b>$current_user_name</b> Propetry:%userprop%";
-		$arr["userinfo"] = str_replace('%userprop%', $gsession -> GetUserProperty($current_user_id), $userinfo_tpl);
+		//tpl: $userinfo_tpl = "User:<b>$current_user_name</b> Propetry:%userprop%";
+		$arr["userinfo"] = str_replace('%userprop%', $gsession -> GetUserProperty($current_user_id), $g_userinfo_tpl);
 	}
-	$userlist_tpl = "List of users:</br><table>%ROWS%</table></b>";
-	$row_tpl = "<tr><td><div id=uc%ACT_ORDER% class='pl us_c%ACT_ORDER%'></td><td class='us_c%IS_HOLDER%'><b>%NAME%</b></td><td>
-				</div> %USER_CASH%</td></tr>";
-	$userlist_rows = $gsession -> GetUserList($row_tpl);
-	$userlist = str_replace('%ROWS%', $userlist_rows, $userlist_tpl);
+	//tpl: $userlist_tpl = "List of users:</br><table>%ROWS%</table></b>";
+	//tpl: $row_tpl = "<tr><td><div id=uc%ACT_ORDER% class='pl us_c%ACT_ORDER%'></td><td class='us_c%IS_HOLDER%'><b>%NAME%</b></td><td>
+	//			</div> %USER_CASH%</td></tr>";
+	$userlist_rows = $gsession -> GetUserList($g_userlist_row_tpl);
+	$userlist = str_replace('%ROWS%', $userlist_rows, $g_userlist_tpl);
 	$arr["userlist"] = $userlist;
 	if ($G_MODE == G_MODE_PLAY) {
 		$diceinfo_tpl = "Dice:<b>%LAST_DICE1%:%LAST_DICE2%</b>";
