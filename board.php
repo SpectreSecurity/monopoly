@@ -1,14 +1,14 @@
 <?php
 //require_once ('auth.php');
-require_once ('core/core.php');
-ConnectDB();
+//require_once ('core/core.php');
+//ConnectDB();
 //exit;
 //WatchDog();
-$gsession = GetCurrentGSession();
-$gsession_id = $gsession->gsession_id;
-$current_user_id = GetCurrentUserId();
-$current_user_name = GetUserName($current_user_id);
-$current_chat_room = "gs_$gsession_id";
+//$gsession = GetCurrentGSession();
+//$gsession_id = $gsession->gsession_id;
+//$current_user_id = GetCurrentUserId();
+//$current_user_name = GetUserName($current_user_id);
+//$current_chat_room = "gs_$gsession_id";
 $bid_delta = 10;
 
 global $ceil_color_ar;
@@ -63,7 +63,7 @@ function GetNextColor() {
 	var refresh_running=false;
 	var first_refresh=true;
 	var gameover=false;
-
+<?php if ($G_MODE == G_MODE_PLAY) { ?>
 	function DoAction() {
 	$.ajaxSetup({cache: false});
 	$.get("do_maketurn.php?gs_id=<?php echo $gsession_id; ?>&user_id=<?php echo $current_user_id; ?>"
@@ -232,12 +232,12 @@ function GetNextColor() {
 
 	});
 	}
-
+<?php } ?>
 	function AutoRefresh(){
 		if (!refresh_running) {
 			refresh_running = true;
 	//	if ($( "#dialog_loading" ).dialog( "isOpen" )) {$( "#progressbar" ).progressbar( "option", "value", 30 );}
-		$.getJSON('boardjson.php?gs_id=<?php echo $gsession_id; ?>&user_id=<?php echo $current_user_id; ?>&lastupdated='+lastupdated, function(data) {	
+		$.getJSON('boardjson.php?gmode=<?php echo $G_MODE; ?>&gs_id=<?php echo $gsession_id; ?>&user_id=<?php echo $current_user_id; ?>&lastupdated='+lastupdated, function(data) {	
 			if (first_refresh) {
 				first_refresh=false;
 	            $.unblockUI();
@@ -342,6 +342,14 @@ function GetNextColor() {
 	$(function() {
 		$.blockUI({ message: '<h1><img src="images/busy.gif" /> Loading...</h1>' });
 		AutoRefresh();
+		
+	});
+</script>
+<?php if ($G_MODE == G_MODE_PLAY) { ?>
+<script>
+
+
+	$(function() {
 		$( "#create-deal" )
 			.button()
 			.click(function() {
@@ -350,10 +358,6 @@ function GetNextColor() {
                 $( ".validateTips" ).text("");
 				$( "#dialog_deal_start" ).dialog( "open" );
 			});
-	});
-</script>
-<script>
-	$(function() {
 		// a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
 		//$( "#dialog:ui-dialog" ).dialog( "destroy" );
 		
@@ -696,6 +700,7 @@ function GetNextColor() {
 	});
 	</script>
 
+
 <!--
 <div id="dialog_loading" class="dialog" title="Loading">
 	<p>Loading</p>
@@ -756,7 +761,7 @@ function GetNextColor() {
 </div>
 </div>
 
-
+<?php } ?>
 <div id="iboard">
 	<div style="clear: both;">
 		<?php
@@ -804,7 +809,9 @@ function GetNextColor() {
 				<div id="actbtnbox" style="width: 100%;height:50%" >
 				<div id="lastupdated"></div>
 				<!--<button class="button" id="btn_start_deal" onclick="DoStartDeal()">Deal</button>-->
+				<?php if ($G_MODE == G_MODE_PLAY) { ?>
 				<button id="create-deal">Deal</button>
+				<?php } ?>
 				</div>
 				</div>
 				<div id="userlist" class="left" style="width: 30%;height:100%" onclick="SwitchBot()">
@@ -823,7 +830,7 @@ function GetNextColor() {
 	<div id=scrollbar style="clear: both; width: 100%;height:70%">
 		<div id=consolebox  class="consolebox left" style="width: 50%; height:100%" >
 		<div id=gmsgbox class="gmsgbox" style="width: 100%; height:50%;" >
-			<?php echo "Welcome " . $current_user_name; ?>
+			<?php //echo "Welcome " . $current_user_name; ?>
 		
 		</div>
 		<div id=actlog  class="actlog" style="width: 100%; height:25%;" >

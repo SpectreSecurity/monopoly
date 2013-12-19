@@ -1,15 +1,15 @@
 <?php
 //require_once ('auth.php');
-require_once ('core/core.php');
-ConnectDB();
+//require_once ('core/core.php');
+//ConnectDB();
 //exit;
 //WatchDog();
-$gsession = GetCurrentGSession();
-$gsession_id = $gsession->gsession_id;
-$current_user_id = GetCurrentUserId();
-$current_user_name = GetUserName($current_user_id);
-$current_chat_room = "gs_$gsession_id";
-$bid_delta = 10;
+//$gsession = GetCurrentGSession();
+//$gsession_id = $gsession->gsession_id;
+//$current_user_id = GetCurrentUserId();
+//$current_user_name = GetUserName($current_user_id);
+//$current_chat_room = "gs_$gsession_id";
+//$bid_delta = 10;
 
 ?>
 
@@ -72,5 +72,5 @@ $bid_delta = 10;
 				</table>
 			    </div>
 	<div id=gmsgbox class="gmsgbox" style="width: 100%; height:200px;" >
-			<?php echo "Welcome " . $current_user_name; ?>
+			<?php //echo "Welcome " . $current_user_name; ?>
 	</div>

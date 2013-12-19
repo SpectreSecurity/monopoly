@@ -2,8 +2,26 @@
 require_once ('gpc_api.php');
 
 function us_GetCurrentUserIdentity() {
-  	return gpc_get_string("user_identity",NULL); 
+  	return gpc_get_string("identity",NULL); 
 }
+
+function us_GetCurrentUserIdentityName() {
+  	return gpc_get_string("identity_name",NULL); 
+}
+
+function us_GetCurrentUserIdentityLogin() {
+  	return gpc_get_string("identity_login",NULL); 
+}
+
+function us_GetCurrentGMode() {
+	/*$val = NULL;
+	if (isset($_GET["lastupdated"])) {
+		$val = $_GET["lastupdated"];
+	}
+	*/
+	return gpc_get_string("gmode", NULL);
+}
+
 
 function us_GetCurrentUserId() {
 	/*$user_id=0;
@@ -24,7 +42,7 @@ function us_GetCurrentUserId() {
 
 
 function us_GetCurrentGSessionId() {
-  	$gsession_id = gpc_get_int("gs_id",1); 
+  	$gsession_id = gpc_get_int("gs_id",NULL); 
 	//temporary override it
 	//$gsession_id = DbGetValue("select max(gsession_id) gsession_id from m_gsession ");
 

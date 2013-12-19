@@ -15,8 +15,11 @@ header('Content-Type: text/javascript; charset=utf8');
 $arr = array();
 
 //$arr["refreshtimeout"] = 3000;
-$arr["debug"] = $current_user_id;
+//$arr["debug"] = $current_user_id;
+//$arr["debug2"] = us_GetCurrentUserIdentity();
+//$arr["debug3"] = us_GetCurrentUserIdentityName();
 
+//$arr["debug3"] = ;
 
 $gs_join_tpl = "<div id='gs_id%GSESSION_ID%".'el'.$gstate."' class='msgln'>%GSESSION_ID% %MAP_NAME% %STARTSTAMP% %GTURN% %LAST_UPDATED% <a href='/mon/index.php?action=gs%ACTION%&gs_id=%GSESSION_ID%'>%ACTION%</a></div>";
 $gs_view_tpl = "<div id='gs_id%GSESSION_ID%".'el'.$gstate."' class='msgln'>%GSESSION_ID% %MAP_NAME% %STARTSTAMP% %LAST_UPDATED% <a href='/mon/index.php?action=gsview&gs_id=%GSESSION_ID%'>view</a></div>";

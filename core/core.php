@@ -32,7 +32,16 @@ function GetCfgMessage($msg_code) {
 function GetCurrentUserId() {
 	$user_id = us_GetCurrentUserId();
 	if (($user_id == NULL) || ($user_id == 0)) {
-		$user_id = GetUserId_by_Identity(us_GetCurrentUserIdentity());
+		$identity = us_GetCurrentUserIdentity();
+		if ($identity!= NULL) {
+			$user_id = GetUserId_by_Identity($identity);
+			if ($user_id == NULL) {
+				$user_id = CreateUserByIdentity($identity);
+
+			}
+		} 
+		//to do add error!!!
+
 	}
 	return $user_id;
 }
@@ -49,6 +58,17 @@ function GetUserId_by_Identity($user_identity) {
 		return NULL;
 	}
 	$user_id = DbGetValue("select user_id from `m_user` where `identity`='$user_identity'");
+	return $user_id;
+}
+
+function CreateUserByIdentity($user_identity) {
+	if ($user_identity == NULL) {
+		return false;
+	}
+	$identity_name = us_GetCurrentUserIdentityName();
+	$identity_login = us_GetCurrentUserIdentityLogin();
+	$user_id = DbINSERT("INSERT INTO `m_user`(`login`, `name`, `identity`) 
+	VALUES ('$identity_login', '$identity_name','$user_identity') ");
 	return $user_id;
 }
 
@@ -162,9 +182,6 @@ function CanGSesssionPlayUser($gsession_id, $user_id) {
 	}
 	return false;
 }
-
-
-
 
 function CleanALL() {
 	DbSQL("TRUNCATE TABLE `m_gsession_msg`");

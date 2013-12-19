@@ -15,13 +15,13 @@ $action = us_GetCurrentAction();
 //echo '!GetCurrentUserId</br>';
 
 /**/
-global $G_MODE;
+
 switch ($action) {
 	case 'gscreate' :
 		include ('gscreate.php');
 		break;
 	case 'gsview' :
-		$G_MODE = G_MODE_VIEW;
+
 		include ('gsview.php');
 		break;
 	case 'gsjoin' :
@@ -32,7 +32,7 @@ switch ($action) {
 		include ('gsjoin.php');
 		break;
 	case 'gsplay' :
-		$G_MODE = G_MODE_PLAY;
+
 		include ('gsplay.php');
 		break;
 	default :
