@@ -5,7 +5,7 @@ ConnectDB();
 $user_id = GetCurrentUserId();
 
 $gsession = new GSession();
-if (!$gsession -> Create(1, $user_id)) {
+if (!$gsession -> Create(2, $user_id)) {
 	echo 'Create fail' . '<br>';
 	exit;
 }

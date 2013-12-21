@@ -788,13 +788,13 @@ class GSession {
 			for ($i = 1; $i <= $dice1 + $dice2; $i++) {
 				$fly_pos = DbGetValue("SELECT field_id 
 				FROM   m_cfg_map_field 
-				WHERE  fcode IN (SELECT Ifnull(Min(fcode), (SELECT Min(fcode) 
+				WHERE  map_id=" . $this -> map_id . " and  fcode IN (SELECT Ifnull(Min(fcode), (SELECT Min(fcode) 
                 				                                    FROM   m_cfg_map_field  
                                 				                    WHERE  map_id = " . $this -> map_id . ")) 
                      FROM   m_cfg_map_field 
-                     WHERE  fcode > (SELECT fcode 
+                     WHERE  map_id=" . $this -> map_id . " and fcode > (SELECT fcode 
                                          FROM   m_cfg_map_field 
-                                         WHERE  map_id=1 and field_id = $fly_pos))");
+                                         WHERE  map_id=" . $this -> map_id . " and field_id = $fly_pos))");
 				$event = DbGetValue("select event from m_cfg_map_field t1, m_cfg_faction t2 where t1.fact_code=t2.fact_code and t1.field_id=$fly_pos and t1.map_id= " . $this -> map_id);
 				if ($event == 'onfly') {
 					//raise on fly events
