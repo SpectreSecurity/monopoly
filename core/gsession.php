@@ -36,7 +36,7 @@ class GSession {
 		//create new
 		DbStartTrans();
 		//create new gsession
-		$this -> gsession_id = DbINSERT("INSERT INTO m_gsession (`map_id`, `gstatus`, `gstate`, createstamp) VALUES ($map_id," . G_GS_GSTATUS_ACTIVE. "," . G_GS_GSTATE_CREATED . ", current_timestamp)");
+		$this -> gsession_id = DbINSERT("INSERT INTO m_gsession (`map_id`, `gstatus`, `gstate`, createstamp, creator_user_id) VALUES ($map_id," . G_GS_GSTATUS_ACTIVE. "," . G_GS_GSTATE_CREATED . ", current_timestamp, $user_id)");
 		//init map
 		DbSQL("INSERT INTO m_gsession_map_field (`gsession_id`, `map_id`, `field_id`, `fgroup_id`, `fparam`, fparam_calc1, fparam_calc2) 
 	SELECT " . $this -> gsession_id . ",$map_id, field_id, `fgroup_id`, fparam, fparam_calc1, fparam_calc2 from `m_cfg_map_field` where map_id=$map_id");
@@ -51,7 +51,7 @@ class GSession {
 		LogGSession($this -> gsession_id, $user_id, G_LOG_LVL_DEBUG, "create gsession");
 		$res=DbCompleteTrans();
 		if ($res)
-			$this -> AddMesage(GetCfgMessage('MSG_INFO_GS_CREATED'), G_GS_MSGTYPE_INFO);
+			$this -> AddMesage(GetCfgMessage('MSG_INFO_GS_CREATED'), G_GS_MSGTYPE_INFO, $user_id);
 		return $res;
 	}
 
@@ -436,7 +436,7 @@ class GSession {
 		LogGSession($this -> gsession_id, $user_id, G_LOG_LVL_DEBUG, "assign user");
 		$res=DbCompleteTrans();
 		if ($res) {
-			$this -> AddMesage(GetCfgMessage('MSG_INFO_GS_USER_JOIN'), G_GS_MSGTYPE_INFO);
+			$this -> AddMesage(GetCfgMessage('MSG_INFO_GS_USER_JOIN'), G_GS_MSGTYPE_INFO, $user_id);
 		}
 		return $res;
 	}
@@ -469,7 +469,7 @@ class GSession {
 		//check if it doesnt assigned
 		$res = $this -> DeactivateUser($user_id);
 		if ($res) {
-			$this -> AddMesage(GetCfgMessage('MSG_INFO_GS_USER_LOSE'), G_GS_MSGTYPE_INFO);
+			$this -> AddMesage(GetCfgMessage('MSG_INFO_GS_USER_LOSE'), G_GS_MSGTYPE_INFO, $user_id);
 		}
 		return $res;
 	}
@@ -594,15 +594,64 @@ class GSession {
 	//-----------------------------------------------
 	// Msg methods
 	//-----------------------------------------------
-	function AddMesage($msg, $msg_type, $user_id = NULL) {
+	function AddMesage($msg, $msg_type, $user_id = NULL, $addressee_user_id = NULL) {
 		//check if it doesnt assigned
 		//Assign user
 		DbStartTrans();
-		if ((!isset($user_id)) || ($user_id == '')) {
-			$user_id = 'NULL';
+		if ($addressee_user_id == NULL) {
+			$addressee_user_id = 'NULL';
 		}
-		DbSQL("INSERT INTO `m_gsession_msg`(`user_id`, `gsession_id`, `msgtype`, `msg_text`) 
-		VALUES ($user_id, " . $this -> gsession_id . ", $msg_type, '$msg')");
+		if ($user_id == NULL) {
+			$user_id = 'NULL';
+			$user_name = 'NULL';
+		} else {
+			$user_name = GetUserName($user_id);
+		}
+
+                if (strpos($msg, '%') != FALSE) {
+			$holder_user_id=$this->GetHolderUserId();
+			$holder_user_name=GetUserName($holder_user_id);
+			//$target_user_name=GetUserName($target_user_id);  		
+ 			$sql = "SELECT $user_id user_id, '$user_name' user_name, g.gsession_id, g.map_id, g.createstamp gcreatestamp, g.startstamp gstartstamp, g.endstamp gendstamp, g.gstatus gstatus, g.gstate gstate, g.gturn gturn,
+                                        '".G_GS_MAX_PLAYERS."' G_GS_MAX_PLAYERS,  '".G_GS_START_TIMEOUT."' G_GS_START_TIMEOUT, '".G_GS_MIN_PLAYERS."' G_GS_MIN_PLAYERS,
+					c.name CREATOR_USER_NAME, '$holder_user_name' HOLDER_USER_NAME
+					FROM m_gsession g 
+					LEFT JOIN m_user c ON g.creator_user_id = c.user_id
+					WHERE g.gsession_id = " . $this -> gsession_id;
+			$msg = DbQuery( $sql, $msg);
+		}
+		/*	if (strpos($msg, '%') != FALSE) {		
+			  $user_name = GetUserName($user_id);
+			//		(SELECT MAX( x.user_cash ) 
+			//		 FROM m_gsession_user x
+			//		 WHERE x.gsession_id =  55
+			//		 )max_user_cash
+			  $sql = "SELECT  $user_id user_id, '$user_name' user_name, " . $this -> GetActivePlayersCount() . " active_players,
+					g.gsession_id, g.map_id, g.createstamp gcreatestamp, g.startstamp gcreatestamp, g.endstamp gendstamp, g.gstatus gstatus, g.gstate gstate, g.gturn gturn,
+					gu.`act_order`, gu.`user_cash`, gu.`last_dice1`, gu.`last_dice2`, gu.`debitor_stamp`,
+					mf.field_id, mf.fcode, mf.name field_name,
+					fg.fgroup_name,
+					gfg.fgparam, 
+					gmf.owner_user_id, gmf.fparam,
+					own.name owner_user_name, 
+					'" . $this -> GetUserProperty($user_id) . "'user_property 					
+				FROM m_gsession g 
+				LEFT JOIN m_gsession_user gu ON g.gsession_id = gu.gsession_id 
+				LEFT JOIN m_cfg_map_field mf ON mf.field_id = gu.position_field_id
+				LEFT JOIN m_gsession_map_fgroup gfg ON mf.fgroup_id = gfg.fgroup_id
+					AND gfg.gsession_id =  g.gsession_id 
+				LEFT JOIN m_cfg_map_fgroup fg ON fg.fgroup_id = mf.fgroup_id
+				LEFT JOIN m_gsession_map_field gmf ON gmf.field_id = gu.position_field_id and gmf.gsession_id =  g.gsession_id
+				LEFT JOIN m_user own ON gmf.owner_user_id = own.user_id
+				WHERE g.gsession_id = " . $this -> gsession_id . "
+					and gu.user_id= $user_id" ;
+ 			  $msg = DbQuery( $sql, $msg, "", false);
+			}
+		*/
+		if ($msg != '') {
+			DbSQL("INSERT INTO `m_gsession_msg`(`user_id`, `gsession_id`, `msgtype`, `msg_text`) 
+			VALUES ($addressee_user_id, " . $this -> gsession_id . ", $msg_type, '$msg')");
+		}
 		return DbCompleteTrans();
 	}
 
