@@ -14,7 +14,7 @@ $action = us_GetCurrentAction();
 
 //try {
 /**/
-$user_id = $gsession -> GetHolderUserId();
+//!! superbot mode $user_id = $gsession -> GetHolderUserId();
 //if ($gsession -> HolderMakeTurn()) {
 if ($gsession -> UserMakeTurn($user_id)) {
 	echo '<br>' . "Turn done!";

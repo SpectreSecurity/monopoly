@@ -517,6 +517,22 @@ class GSession {
 	function GetDebitorTimeout($user_id) {
 		return DbGetValue("select TIMESTAMPDIFF(SECOND,IFNULL(debitor_stamp,CURRENT_TIMESTAMP),CURRENT_TIMESTAMP) from m_gsession_user where gsession_id=" . $this -> gsession_id . " and user_id=$user_id");
 	}
+	function GetDebitorTimeLeft($user_id) {
+		$dtimeout = $this -> GetDebitorTimeout($user_id);
+		if ((!isset($dtimeout)) || ($dtimeout == '')) {
+			$dtimeout=0;
+		} 
+		return G_GS_DEBITOR_TIMEOUT-$dtimeout;
+	}
+	function IsDebitor($user_id) {
+		$stamp=DbGetValue("select debitor_stamp from m_gsession_user where gsession_id=" . $this -> gsession_id . " and user_id=$user_id");
+		if ((!isset($stamp)) || ($stamp == '')) {
+			$res=false;
+		} else {
+			$res=true;
+		}
+		return $res;
+	}
 
 	//-----------------------------------------------
 	// User methods
@@ -637,7 +653,9 @@ class GSession {
 			  and t3.gsession_id = " . $this -> gsession_id;
 		if (strpos($fact_cond, '%') != FALSE) {
 			//try to replace params
+			//LogGSession($this -> gsession_id, $user_id, G_LOG_LVL_DEBUG, "fact_cond=$fact_cond");
 			$fact_cond = DbQuery(str_replace('%fact_cond%', 't1.fact_cond', $sql), $fact_cond, "", false);
+			//LogGSession($this -> gsession_id, $user_id, G_LOG_LVL_DEBUG, "fact_cond=$fact_cond");
 		}
 		if (isset($fact_cond) && ($fact_cond != '')) {
 			//try to calc fparams

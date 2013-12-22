@@ -38,9 +38,9 @@ if ($gsession -> IsStarted()) {
 	$arr["refreshtimeout"] = 30000;
 }
 if ($G_MODE == G_MODE_PLAY) {
-	$dtimeout = $gsession -> GetDebitorTimeout($current_user_id);
-	if ($dtimeout > 0) {
-		$diceinfo_tpl = "Left $dtimeout sec";
+	if ($gsession -> IsDebitor($current_user_id)) {
+		$dtimeleft = $gsession -> GetDebitorTimeLeft($current_user_id);
+		$diceinfo_tpl = "Left $dtimeleft sec";
 		$arr["dice"] = $diceinfo_tpl;
 	}
 }
