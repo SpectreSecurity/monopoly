@@ -803,10 +803,10 @@ function GetNextColor() {
 				</div>
 				<div id="dicebox" class="left" style="width: 20%;height:100%">
 				<div id="bot" class="left"></div>	
-				<div id="dice" style="width: 100%;height:50%" onclick="DoAction1()" >
-					dice
+				<div id="dice" style="width: 100%;height:60%" onclick="DoAction1()" >
+					<div id="dicer"><img src="images/dice.gif" /></div>					
 				</div>
-				<div id="actbtnbox" style="width: 100%;height:50%" >
+				<div id="actbtnbox" style="width: 100%;height:40%" >
 				<div id="lastupdated"></div>
 				<!--<button class="button" id="btn_start_deal" onclick="DoStartDeal()">Deal</button>-->
 				<?php if ($G_MODE == G_MODE_PLAY) { ?>

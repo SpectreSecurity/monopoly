@@ -526,10 +526,10 @@ class GSession {
 	}
 	function IsDebitor($user_id) {
 		$stamp=DbGetValue("select debitor_stamp from m_gsession_user where gsession_id=" . $this -> gsession_id . " and user_id=$user_id");
-		if ((!isset($stamp)) || ($stamp == '')) {
-			$res=false;
-		} else {
+		if ((isset($stamp)) && ($stamp != '')&&($this -> GetUserCash($user_id) < 0)) {
 			$res=true;
+		} else {
+			$res=false;
 		}
 		return $res;
 	}
@@ -607,10 +607,14 @@ class GSession {
 		} else {
 			$user_name = GetUserName($user_id);
 		}
-
+		//try simple replace
                 if (strpos($msg, '%') != FALSE) {
 			$holder_user_id=$this->GetHolderUserId();
 			$holder_user_name=GetUserName($holder_user_id);
+			if ($holder_user_id == NULL) {
+				$holder_user_id = 'NULL';
+				$holder_user_name = 'NULL';
+			}
 			//$target_user_name=GetUserName($target_user_id);  		
  			$sql = "SELECT $user_id user_id, '$user_name' user_name, g.gsession_id, g.map_id, g.createstamp gcreatestamp, g.startstamp gstartstamp, g.endstamp gendstamp, g.gstatus gstatus, g.gstate gstate, g.gturn gturn,
                                         '".G_GS_MAX_PLAYERS."' G_GS_MAX_PLAYERS,  '".G_GS_START_TIMEOUT."' G_GS_START_TIMEOUT, '".G_GS_MIN_PLAYERS."' G_GS_MIN_PLAYERS,
@@ -620,16 +624,32 @@ class GSession {
 					WHERE g.gsession_id = " . $this -> gsession_id;
 			$msg = DbQuery( $sql, $msg);
 		}
-		/*	if (strpos($msg, '%') != FALSE) {		
-			  $user_name = GetUserName($user_id);
+		//try replace for with user info
+		if (strpos($msg, '%') != FALSE) {		
+			$holder_user_id=$this->GetHolderUserId();
+			$holder_user_name=GetUserName($holder_user_id);
+			if ($holder_user_id == NULL) {
+				$holder_user_id = 'NULL';
+				$holder_user_name = 'NULL';
+			}
+			if ($user_id=='NULL') {
+				$target_user_id=$holder_user_id;
+				$target_user_name=$holder_user_name;
+				 
+			} else {
+				$target_user_id=$user_id;
+				$target_user_name=$user_name;
+			}
+			if ($target_user_id!='NULL') {
 			//		(SELECT MAX( x.user_cash ) 
 			//		 FROM m_gsession_user x
 			//		 WHERE x.gsession_id =  55
 			//		 )max_user_cash
-			  $sql = "SELECT  $user_id user_id, '$user_name' user_name, " . $this -> GetActivePlayersCount() . " active_players,
-					g.gsession_id, g.map_id, g.createstamp gcreatestamp, g.startstamp gcreatestamp, g.endstamp gendstamp, g.gstatus gstatus, g.gstate gstate, g.gturn gturn,
+			  $sql = "SELECT  $target_user_id user_id, '$target_user_name' user_name, g.gsession_id, g.map_id, g.createstamp gcreatestamp, g.startstamp gstartstamp, g.endstamp gendstamp, g.gstatus gstatus, g.gstate gstate, g.gturn gturn,
+                                        '".G_GS_MAX_PLAYERS."' G_GS_MAX_PLAYERS,  '".G_GS_START_TIMEOUT."' G_GS_START_TIMEOUT, '".G_GS_MIN_PLAYERS."' G_GS_MIN_PLAYERS,
+					" . $this -> GetActivePlayersCount() . " active_players,
 					gu.`act_order`, gu.`user_cash`, gu.`last_dice1`, gu.`last_dice2`, gu.`debitor_stamp`,
-					mf.field_id, mf.fcode, mf.name field_name,
+					mf.field_id, mf.fcode, mf.name position_field_name,
 					fg.fgroup_name,
 					gfg.fgparam, 
 					gmf.owner_user_id, gmf.fparam,
@@ -645,9 +665,9 @@ class GSession {
 				LEFT JOIN m_user own ON gmf.owner_user_id = own.user_id
 				WHERE g.gsession_id = " . $this -> gsession_id . "
 					and gu.user_id= $user_id" ;
- 			  $msg = DbQuery( $sql, $msg, "", false);
+ 			  $msg = DbQuery( $sql, $msg);
 			}
-		*/
+		}
 		if ($msg != '') {
 			DbSQL("INSERT INTO `m_gsession_msg`(`user_id`, `gsession_id`, `msgtype`, `msg_text`) 
 			VALUES ($addressee_user_id, " . $this -> gsession_id . ", $msg_type, '$msg')");
@@ -685,7 +705,7 @@ class GSession {
 		$fparam_calc2 = DbGetValue("select t1.fparam_calc2 
 			from m_gsession_map_field t1 
 			where t1.gsession_id = " . $this -> gsession_id . " and t1.field_id=$field_id and t1.map_id= " . $this -> map_id);
-		$sql = "select $user_id user_id, '$user_name' user_name, gu.user_cash,
+		$sql = "select $user_id user_id, '$user_name' user_name, " . $this -> map_id. " map_id, gu.user_cash, 
 				" . $this -> gsession_id . " gsession_id, " . $this -> gturn . " gturn, " . $this -> GetActivePlayersCount() . " active_players,
 				gfg.fgparam, IF(t1.ftype_code=2,(IFNULL(gfg.fgparam,1) * t3.fparam), NULL) ftax,  
 				t3.field_id, '%fact_cond%' fact_cond, '%fparam_calc1%' fparam_calc1, '%fparam_calc2%' fparam_calc2,t3.fparam, '%pay_type%' pay_type, '%exch_type%' exch_type,
@@ -744,7 +764,7 @@ class GSession {
 				$msg = DbQuery(str_replace('%fparam_calc1%', $fparam_calc1, str_replace('%fparam_calc2%', $fparam_calc2, str_replace('%pay_type%', $pay_type, str_replace('%exch_type%', $exch_type, $sql)))), $msg);
 			}
 			if (isset($msg) && ($msg != '')) {
-				$this -> AddMesage($msg, G_GS_MSGTYPE_ACTMSG);
+				$this -> AddMesage($msg, G_GS_MSGTYPE_ACTMSG, $user_id);
 			}
 			LogGSession($this -> gsession_id, $user_id, G_LOG_LVL_DEBUG, "$act_event action on field=$field_id fparam=$fparam msg=$msg done");
 		} else {

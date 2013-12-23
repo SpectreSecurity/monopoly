@@ -10,6 +10,7 @@
 		<script type="text/javascript" src="js/jquery.blockUI.js"></script>
 
 		<link rel="stylesheet" href="css/mon2.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="css/dice.css" type="text/css" media="screen" />
 
 	</head>
 	<body>

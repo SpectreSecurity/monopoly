@@ -7,7 +7,7 @@ $g_userprop_tpl = '<tr><td>%FGROUP_NAME%</td><td>%FGCOST%</td><td>%FGMULT%</td><
 $g_userinfo_tpl = "User:<b>$current_user_name</b> Propetry:%userprop%";
 $g_userlist_tpl = "List of users:</br><table>%ROWS%</table></b>";
 $g_userlist_row_tpl = "<tr><td><div id=uc%ACT_ORDER% class='pl us_c%ACT_ORDER%'></td><td class='us_c%IS_HOLDER%'><b>%NAME%</b></td><td></div> %USER_CASH%</td></tr>";
-$g_diceinfo_tpl = "Dice:<b>%LAST_DICE1%:%LAST_DICE2%</b>";
+$g_diceinfo_tpl = "Dice:<b>%LAST_DICE1%:%LAST_DICE2%</b></br><div id='dicer'><div class='die d%LAST_DICE1%'> <span class='dot'></span></div><div class='die d%LAST_DICE2%'> <span class='dot'></span></div></div>";
 
 $g_ceil_tpl = '<div id="ceil%FCODE%" class="%ONAUCTION% ceil">
 		<div id="pic%FCODE%" style="height: 70%;">
