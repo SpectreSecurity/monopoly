@@ -17,6 +17,10 @@ reset($ceil_color_ar);
 
 $ceil_color_ind = 1;
 $ceil_tmpl1 = '<section id="c%i%" class="%color% right"></section>';
+$ceil_tmpl_top = '<section id="sc%i%" class="%color% right"><div id="c%i%" style="width:100%;height:95%"></div><div id=up%i% style="width:100%;height:5%"></div></section>';
+$ceil_tmpl_left = '<section id="sc%i%" class="%color% right"><div id="c%i%" class="right" style="width:95%;height:100%"></div><div id=up%i% class="right" style="width:5%;height:100%"></div></section>';
+$ceil_tmpl_right = '<section id="sc%i%" class="%color% right"><div id=up%i% class="right" style="width:5%;height:100%"></div><div id="c%i%" class="right" style="width:95%;height:100%"></div></section>';
+$ceil_tmpl_bottom = '<section id="sc%i%" class="%color% right"><div id=up%i% style="width:100%;height:5%"></div><div id="c%i%" style="width:100%;height:95%"></div></section>';
 /*
 $ceil_tmpl1 = '
         <section id="c%i%" class="%color% right">
@@ -769,7 +773,7 @@ function GetNextColor() {
 			//SELECT cf.field_id, f.fparam, f.owner_user_id, cf.fcode, cf.name, cf.fact_code, cf.ftype_code, cf.fgroup_id
 
 			//function GetFieldInfo_by_fcode($fcode,$tpl,$encodechars=false, $rowdelimter='') {
-			$tpl = str_replace('%color%', GetNextColor(), str_replace('%i%', $i, $ceil_tmpl1));
+			$tpl = str_replace('%color%', GetNextColor(), str_replace('%i%', $i, $ceil_tmpl_top));
 			//$tpl = $gsession -> GetFieldInfo_by_fcode($i, $tpl);
 			//$tpl_ulist = $gsession -> GetFieldUserInfo_by_fcode($i, $tpl_ceil_user);
 			//echo str_replace('%USERLIST%', $tpl_ulist, $tpl);
@@ -781,7 +785,7 @@ function GetNextColor() {
 		<?php
 		GetNextColor();
 		for ($i = 32; $i >= 27; $i--) {
-			$tpl = str_replace('%color%', GetNextColor(), str_replace('%i%', $i, $ceil_tmpl1));
+			$tpl = str_replace('%color%', GetNextColor(), str_replace('%i%', $i, $ceil_tmpl_left));
 			//$tpl = $gsession -> GetFieldInfo_by_fcode($i, $tpl);
 			//$tpl_ulist = $gsession -> GetFieldUserInfo_by_fcode($i, $tpl_ceil_user);
 			//echo str_replace('%USERLIST%', $tpl_ulist, $tpl);
@@ -851,7 +855,7 @@ function GetNextColor() {
 	GetNextColor();
 	for ($i = 11; $i <= 16; $i++) {
 		//    		echo str_replace('%color%',GetNextColor(),str_replace('%i%',$i,$ceil_tmpl));
-		$tpl = str_replace('%color%', GetNextColor(), str_replace('%i%', $i, $ceil_tmpl1));
+		$tpl = str_replace('%color%', GetNextColor(), str_replace('%i%', $i, $ceil_tmpl_right));
 		//$tpl = $gsession -> GetFieldInfo_by_fcode($i, $tpl);
 		//$tpl_ulist = $gsession -> GetFieldUserInfo_by_fcode($i, $tpl_ceil_user);
 		//echo str_replace('%USERLIST%', $tpl_ulist, $tpl);
@@ -865,7 +869,7 @@ function GetNextColor() {
 
 	GetNextColor();
 	for ($i = 26; $i >= 17; $i--) {
-		$tpl = str_replace('%color%', GetNextColor(), str_replace('%i%', $i, $ceil_tmpl1));
+		$tpl = str_replace('%color%', GetNextColor(), str_replace('%i%', $i, $ceil_tmpl_bottom));
 		//$tpl = $gsession -> GetFieldInfo_by_fcode($i, $tpl);
 		//$tpl_ulist = $gsession -> GetFieldUserInfo_by_fcode($i, $tpl_ceil_user);
 		//echo str_replace('%USERLIST%', $tpl_ulist, $tpl);

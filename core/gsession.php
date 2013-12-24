@@ -309,7 +309,7 @@ class GSession {
 
 	function GetHolderUserId() {
 		$user_id = DbGetValue("select user_id from `m_gsession_user` where `gsession_id`=" . $this -> gsession_id . " and `is_holder`=true");
-		if ($user_id == NULL) { raise_exception("GetHolderUserId is null",E_USER_ERROR); }
+		if ($user_id == '') { raise_exception("GetHolderUserId is null",E_USER_ERROR); }
 		return $user_id;
 	}
 
@@ -670,7 +670,7 @@ class GSession {
 		}
 		if ($msg != '') {
 			DbSQL("INSERT INTO `m_gsession_msg`(`user_id`, `gsession_id`, `msgtype`, `msg_text`) 
-			VALUES ($addressee_user_id, " . $this -> gsession_id . ", $msg_type, '$msg')");
+			VALUES ($addressee_user_id, " . $this -> gsession_id . ", $msg_type, ?)", array($msg));
 		}
 		return DbCompleteTrans();
 	}
@@ -682,6 +682,7 @@ class GSession {
 		//check if it doesnt assigned
 		//DbStartTrans();
 		$user_id = $this -> GetHolderUserId();
+		if ((isset($user_id))&&($user_id!='')) {
 		$user_name = GetUserName($user_id);
 		$pay_type = '';
 		$exch_type = '';
@@ -756,6 +757,7 @@ class GSession {
 			}
 			if ($sql_tpl != '') {
 				$act_sql = DbQuery(str_replace('%fparam_calc1%', $fparam_calc1, str_replace('%fparam_calc2%', $fparam_calc2, $sql)), $sql_tpl, "", false);
+				//LogGSession($this -> gsession_id, $user_id, G_LOG_LVL_DEBUG, "###gturn=" . $this -> gturn . " $act_event action on field=$field_id fparam=$fparam fparam_calc1=$fparam_calc1 fparam_calc2=$fparam_calc2 sql=$act_sql");
 				//echo $sql;
 				DbSQL($act_sql);
 			}
@@ -766,11 +768,12 @@ class GSession {
 			if (isset($msg) && ($msg != '')) {
 				$this -> AddMesage($msg, G_GS_MSGTYPE_ACTMSG, $user_id);
 			}
-			LogGSession($this -> gsession_id, $user_id, G_LOG_LVL_DEBUG, "$act_event action on field=$field_id fparam=$fparam msg=$msg done");
+			LogGSession($this -> gsession_id, $user_id, G_LOG_LVL_DEBUG, "$act_event action on field=$field_id fparam=$fparam fparam_calc2=$fparam_calc2 fparam_calc1=$fparam_calc1 msg=$msg done");
 		} else {
 			LogGSession($this -> gsession_id, $user_id, G_LOG_LVL_DEBUG, "$act_event action on field=$field_id not started due condition: $fact_cond");
 		}
 
+		}
 		return true;
 		//DbCompleteTrans();
 	}
@@ -943,12 +946,17 @@ class GSession {
 				//                                AND user_id = $user_id)
 				//	   AND is_active = true)");
 				$next_user_id = $this -> GetNextTurnPlayer();
-				DbSQL("UPDATE `m_gsession_user` 
+				DbSQL("UPDATE m_gsession_user u1, m_gsession_user u2 
+				SET u1.is_holder=false, u2.is_holder=true 
+				WHERE u1.user_id=$user_id and u2.user_id=$next_user_id 
+				and u1.gsession_id = " . $this -> gsession_id . "
+				and u2.gsession_id = " . $this -> gsession_id );
+/*				DbSQL("UPDATE `m_gsession_user` 
 		 SET `is_holder`=false
          WHERE  gsession_id = " . $this -> gsession_id . " and user_id=$user_id");
 				DbSQL("UPDATE `m_gsession_user` 
 		 SET `is_holder`=true, has_penalty=false,  penalty_turn = NULL
-         WHERE  gsession_id = " . $this -> gsession_id . " and user_id=$next_user_id");
+         WHERE  gsession_id = " . $this -> gsession_id . " and user_id=$next_user_id");*/
 				$this -> IncGTurn();
 				$this -> MarkUpdatedUser($next_user_id);
 				$this -> ManageDebtor($next_user_id);
@@ -966,7 +974,7 @@ class GSession {
 		return $res;
 	}
 
-	/**
+	/* *
 	 function GetChangedFieldListArray($user_id, $ceil_tpl, $ceil_user_tpl, $lastupdated = NULL,$encodechars = false, $rowdelimter = '') {
 	 $arr= array();
 	 for ($i = 1; $i <= $this-> GetMapFieldCount(); $i++) {
@@ -985,7 +993,7 @@ class GSession {
 	 return $arr;
 	 }
 	 /**/
-	function GetChangedFieldListArray($user_id, $ceil_tpl, $ceil_user_tpl, $lastupdated = NULL, $ceil_user_tpl_marker = '%USERLIST%', $encodechars = false, $rowdelimter = '') {
+	function GetChangedFieldListArray($user_id, $ceil_tpl, $ceil_user_tpl, $lastupdated = NULL, $ceil_user_tpl_marker = '%USERLIST%', $item_name_tpl='c%FCODE%',$encodechars = false, $rowdelimter = '') {
 		$arr = array();
 		$lastupdated_cond = '';
 		//LogGSession($this -> gsession_id, $user_id, G_LOG_LVL_DEBUG, "lastupdated $lastupdated");
@@ -1000,14 +1008,18 @@ class GSession {
 			$fcode = $row['fcode'];
 			$tpl = $ceil_tpl;
 			$tpl = $this -> GetFieldInfo($field_id, $tpl);
-			$tpl_ulist = $this -> GetFieldUserInfo($field_id, $ceil_user_tpl);
-			if ($this -> CanSellField($user_id, $field_id)) {
-				$issellable = '';
-			} else {
-				$issellable = 'hidden';
-			}
-			$ceil = str_replace('%ISSELLABLE%', $issellable, str_replace($ceil_user_tpl_marker, $tpl_ulist, $tpl));
-			$arr["c$fcode"] = $ceil;
+			$ceil= $tpl;
+			if ($ceil_user_tpl !=NULL) { 
+				$tpl_ulist = $this -> GetFieldUserInfo($field_id, $ceil_user_tpl);
+				if ($this -> CanSellField($user_id, $field_id)) {
+					$issellable = '';
+				} else {
+					$issellable = 'hidden';
+				}
+				$ceil = str_replace('%ISSELLABLE%', $issellable, str_replace($ceil_user_tpl_marker, $tpl_ulist, $tpl));
+			}			
+			$item_name = str_replace('%FCODE%', $fcode, $item_name_tpl);
+			$arr[$item_name] = $ceil;
 		}
 		return $arr;
 	}
@@ -1040,12 +1052,14 @@ class GSession {
 		          cf.fact_code, cf.ftype_code, 
 		          cf.fgroup_id, cfg.fgroup_name fgroup_name, gfg.fgparam fgparam, CONCAT('x',gfg.fgparam) fgmult, 
 		          IF(cf.ftype_code=2,f.fparam,NULL) fcost, 
-		           u.name owner_name, a.auct_id, IF( IFNULL(a.auct_id,0) >0 ,'onauction',NULL ) onauction
+		           u.name owner_name, a.auct_id, IF( IFNULL(a.auct_id,0) >0 ,'onauction',NULL ) onauction,
+			  gu.act_order owner_act_order
 			FROM m_cfg_map_field cf 
 			LEFT JOIN m_cfg_map_fgroup cfg ON cf.fgroup_id=cfg.fgroup_id   
 			LEFT JOIN m_gsession_map_fgroup gfg ON cfg.fgroup_id = gfg.fgroup_id and gfg.gsession_id = " . $this -> gsession_id . ",
 			m_gsession_map_field f
 			LEFT OUTER JOIN m_user u ON f.owner_user_id = u.user_id
+			LEFT OUTER JOIN m_gsession_user gu ON f.owner_user_id = gu.user_id and gu.gsession_id = " . $this -> gsession_id . " 
 			LEFT OUTER JOIN m_gsession_auction a ON a.gsession_id = " . $this -> gsession_id . " and f.field_id = a.field_id and a.auct_state='" . G_AU_AUCT_STATE_OPENED . "'
                   WHERE f.gsession_id = " . $this -> gsession_id . " and f.field_id=$field_id 
                   and cf.map_id=f.map_id and cf.field_id=f.field_id";

@@ -144,7 +144,7 @@ function LogGSession($gsession_id, $user_id, $log_level, $action_desc) {
 	//$user_id = ($user_id == NULL ? us_GetCurrentUserId() : $user_id);
 	$user_id = ($user_id == NULL ? ' NULL ' : $user_id);
 	DbSQL("INSERT INTO `m_gsession_log`(`gsession_id`, `loglevel`, `user_id`, `action_desc`, `microtime`) 
-			VALUES ($gsession_id,$log_level, $user_id,'$action_desc',$microtime)");
+			VALUES ($gsession_id,$log_level, $user_id, ? ,$microtime)", array($action_desc));
 	return true;
 }
 

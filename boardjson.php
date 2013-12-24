@@ -86,8 +86,12 @@ if ($gsession -> HasChanges($dblasttime)) {
 	 $arr["c$i"] = $ceil;
 	 //	echo $ceil;
 	 }/**/
-	$ceil_arr = $gsession -> GetChangedFieldListArray($current_user_id, $ceil_tpl, $g_ceil_user_tpl, $dblasttime);
+
+	$ceil_arr = $gsession -> GetChangedFieldListArray($current_user_id, $ceil_tpl, $g_ceil_user_tpl, $dblasttime, '%USERLIST%', 'c%FCODE%');
 	$arr = array_merge($arr, $ceil_arr);
+
+	$ceil_prop_arr = $gsession -> GetChangedFieldListArray($current_user_id, $g_ceil_prop_ind_tpl, NULL, $dblasttime, NULL, 'up%FCODE%');
+	$arr = array_merge($arr, $ceil_prop_arr);
 
 	$auct_arr = $gsession -> GetChangedAuctionListArray($current_user_id, $g_auct_lot_tpl, $dblasttime, 'auctlot_%AUCT_ID%', NULL, G_AU_AUCT_STATUS_ACTIVE);
 	$arr = array_merge($arr, $auct_arr);

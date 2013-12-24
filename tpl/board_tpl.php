@@ -9,6 +9,8 @@ $g_userlist_tpl = "List of users:</br><table>%ROWS%</table></b>";
 $g_userlist_row_tpl = "<tr><td><div id=uc%ACT_ORDER% class='pl us_c%ACT_ORDER%'></td><td class='us_c%IS_HOLDER%'><b>%NAME%</b></td><td></div> %USER_CASH%</td></tr>";
 $g_diceinfo_tpl = "Dice:<b>%LAST_DICE1%:%LAST_DICE2%</b></br><div id='dicer'><div class='die d%LAST_DICE1%'> <span class='dot'></span></div><div class='die d%LAST_DICE2%'> <span class='dot'></span></div></div>";
 
+$g_ceil_prop_ind_tpl = '<div class="us_c%OWNER_ACT_ORDER%" style="width:100%;height:100%"> </div>';
+
 $g_ceil_tpl = '<div id="ceil%FCODE%" class="%ONAUCTION% ceil">
 		<div id="pic%FCODE%" style="height: 70%;">
 		%FGROUP_NAME%.%FIELD_NAME%</br>%FCOST% %FGMULT%</br>%OWNER_NAME%

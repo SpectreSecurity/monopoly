@@ -83,9 +83,9 @@ function DbGetValue($sql) {
 	return $res;
 }
 
-function DbSQL($sql) {
+function DbSQL($sql, $inputarr=false) {
 	global $db;
-	$rs = $db -> Execute($sql);
+	$rs = $db -> Execute($sql, $inputarr);
 	$rs -> Close();
 	return true;
 }
@@ -96,9 +96,9 @@ function DbGetValueSet($sql) {
 	return $rs;
 }
 
-function DbINSERT($sql) {
+function DbINSERT($sql, $inputarr=false) {
 	global $db;
-	$rs = $db -> Execute($sql);
+	$rs = $db -> Execute($sql, $inputarr);
 	$rs -> Close();
 	return $db -> Insert_ID();
 }

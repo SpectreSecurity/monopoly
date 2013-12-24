@@ -22,11 +22,11 @@ body {
 
 #board {
 	position: relative;
-	margin: 2em;
-	padding: 1em;
+	margin: 0em;
+	padding: 0.2em;
 	width: 50em;
 	background-color: #888888;
-	border: .4375em solid #383838;
+	border: .3em solid #383838;
 }
 #board:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 section:not(#con) {
@@ -81,6 +81,28 @@ section:nth-last-child(-n+20) { top: -37.5em; }
 .us_c5 {
 	background-color: #dddddd;
 	color: #fff;
+}
+
+/* ----- COLORS ----- */
+.ub_c1 {
+	border-top: 3px solid;
+	border-color: #ac2222;
+}
+.ub_c2 {
+	border-top: 3px solid;
+	border-color: #ffa600;
+}
+.ub_c3 {
+	border-top: 3px solid;
+	border-color: #00855c;
+}
+.ub_c4 {
+	border-top: 3px solid;
+	border-color: #005a88;
+}
+.ub_c5 {
+	border-top: 3px solid;
+	border-color: #dddddd;
 }
 
 
