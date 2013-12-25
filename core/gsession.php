@@ -376,6 +376,13 @@ class GSession {
 		  and gm.fgroup_id=$fgroup_id");
 	}
 
+	function GetFieldOpenedDeal($field_id) {
+		return DbGetValue("SELECT fdeal_id
+                   FROM `m_gsession_map_field` gm 
+                  WHERE gm.gsession_id = " . $this -> gsession_id . " 
+		  and gm.field_id=$field_id");
+	}
+
 	function GetFieldOpenedAuctionId($field_id) {
 		return DbGetValue("SELECT auct_id
                    FROM `m_gsession_auction` ga 
@@ -1272,7 +1279,7 @@ class GSession {
 
 	private function CanOpenFieldAuction($auct_type, $holder_user_id, $field_id) {
 		$res = false;
-		if (($this -> GetFieldFType($field_id) == G_GS_FTYPE_GENERAL) && ($this -> GetFieldOpenedAuctionId($field_id) == NULL)) {
+		if (($this -> GetFieldFType($field_id) == G_GS_FTYPE_GENERAL) && ($this -> GetFieldOpenedAuctionId($field_id) == NULL) && ($this->GetFieldOpenedDeal($field_id) == NULL)) {
 			if ($auct_type == G_AU_AUCT_TYPE_ATTACHED) {
 				if (($this -> GetFieldOwner($field_id) == NULL)) {
 					$res = true;
