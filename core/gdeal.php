@@ -34,10 +34,34 @@ class GDeal {
 				DbINSERT("INSERT INTO `m_gsession_deal_list`(`deal_id`, `ddirection`, `field_id`)  VALUES
 					(" . $this -> deal_id . ", '" . G_DL_DDIRECTION_RECEIVE . "', $item )");
 			}
-		$this -> AddMesage(GetCfgMessage('MSG_INFO_DL_OPENED'), G_GS_MSGTYPE_DLMSG);
+		$this -> AfterStart();
 		$this -> MarkUpdated();
+		$this -> AddMesage(GetCfgMessage('MSG_INFO_DL_OPENED'), G_GS_MSGTYPE_DLMSG);
 		//load
 		return $this -> Load($this -> deal_id);
+	}
+
+	function AfterStart() {
+		$sql="SELECT `field_id`  
+			FROM `m_gsession_deal_list` dl
+		        WHERE dl.deal_id = " . $this -> deal_id ;
+		$rs = DbGetValueSet($sql);
+		foreach ($rs as $row) {
+			$field_id = $row['field_id'];
+			$this -> gsession -> OnDealStart($field_id, $this -> deal_id);
+		}
+		return true;
+	}
+	function AfterFinish() {
+		$sql="SELECT `field_id`  
+			FROM `m_gsession_deal_list` dl
+		        WHERE dl.deal_id = " . $this -> deal_id ;
+		$rs = DbGetValueSet($sql);
+		foreach ($rs as $row) {
+			$field_id = $row['field_id'];
+			$this -> gsession -> OnDealFinish($field_id, $this -> deal_id);
+		}
+		return true;
 	}
 
 	function Load($deal_id) {
@@ -158,6 +182,7 @@ class GDeal {
 			$this -> AddMesage(GetCfgMessage('MSG_INFO_DL_REJECTED'), G_GS_MSGTYPE_DLMSG);
 			$this -> MarkUpdated();
 			$this -> ReLoad();
+			$this -> AfterFinish();
 			return true;
 		}
 		return false;
@@ -175,6 +200,7 @@ class GDeal {
 			$this -> AddMesage(GetCfgMessage('MSG_INFO_DL_CANCELED'), G_GS_MSGTYPE_DLMSG);
 			$this -> MarkUpdated();
 			$this -> ReLoad();
+			$this -> AfterFinish();
 			return true;
 		}
 		return false;
@@ -186,6 +212,7 @@ class GDeal {
 			$this -> AddMesage(GetCfgMessage('MSG_INFO_DL_TERMINATED'), G_GS_MSGTYPE_DLMSG);
 			$this -> MarkUpdated();
 			$this -> ReLoad();
+			$this -> AfterFinish();
 			return true;
 		}
 		return false;

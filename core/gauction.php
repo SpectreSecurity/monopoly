@@ -31,6 +31,7 @@ class GAuction {
 		$this -> auct_id = DbINSERT("INSERT INTO `m_gsession_auction`(`gsession_id`, `field_id`, `auct_state`, `auct_status`, `auct_bid`, `auct_step`, auct_type, auct_holder_user_id) VALUES
 		(" . $this -> gsession_id . ", " . $this -> field_id . ",'" . G_AU_AUCT_STATE_OPENED . "','" . G_AU_AUCT_STATUS_ACTIVE . "'," . $this -> bid . " , 0 , " . $this -> auct_type . ", $holder_user_id)");
 		$this -> MarkUpdated();
+		$this -> gsession -> OnAuctionCreate($this -> field_id, $this -> auct_id);
 
 		$msg_code = $this -> auct_type == G_AU_AUCT_TYPE_ATTACHED ? 'MSG_INFO_AU_ATTACHED_OPENED' : 'MSG_INFO_AU_PUBLIC_OPENED';
 		$this -> AddMesage(GetCfgMessage($msg_code), G_GS_MSGTYPE_AUMSG);
@@ -203,7 +204,7 @@ class GAuction {
 		}
 		$res = DbCompleteTrans();
 		if ($res) {
-			$this -> gsession -> OnAuctionClose($this -> field_id);
+			$this -> gsession -> OnAuctionClose($this -> field_id, $this -> auct_id);
 		}
 		return $res;
 	}

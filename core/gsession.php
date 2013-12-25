@@ -209,7 +209,23 @@ class GSession {
 		$this -> MarkUpdatedUser($user_id);
 	}
 
-	function OnAuctionClose($field_id) {
+	function OnAuctionCreate($field_id, $auct_id) {
+		DbSQL("update m_gsession_map_field set fauct_id='$auct_id' where gsession_id=" . $this -> gsession_id . " and field_id='$field_id'");
+		$this -> MarkUpdatedByField($field_id);
+	}
+
+	function OnAuctionClose($field_id, $auct_id) {
+		DbSQL("update m_gsession_map_field set fauct_id=NULL where gsession_id=" . $this -> gsession_id . " and field_id='$field_id'");
+		$this -> MarkUpdatedByField($field_id);
+	}
+
+	function OnDealStart($field_id, $deal_id) {
+		DbSQL("update m_gsession_map_field set fdeal_id='$deal_id' where gsession_id=" . $this -> gsession_id . " and field_id='$field_id'");
+		$this -> MarkUpdatedByField($field_id);
+	}
+
+	function OnDealFinish($field_id, $deal_id) {
+		DbSQL("update m_gsession_map_field set fdeal_id=NULL where gsession_id=" . $this -> gsession_id . " and field_id='$field_id'");
 		$this -> MarkUpdatedByField($field_id);
 	}
 
@@ -1052,7 +1068,7 @@ class GSession {
 		          cf.fact_code, cf.ftype_code, 
 		          cf.fgroup_id, cfg.fgroup_name fgroup_name, gfg.fgparam fgparam, CONCAT('x',gfg.fgparam) fgmult, 
 		          IF(cf.ftype_code=2,f.fparam,NULL) fcost, 
-		           u.name owner_name, a.auct_id, IF( IFNULL(a.auct_id,0) >0 ,'onauction',NULL ) onauction,
+		           u.name owner_name, f.fauct_id auct_id, IF( IFNULL(f.fauct_id,0) >0 ,'onauction',NULL ) onauction,
 			  gu.act_order owner_act_order
 			FROM m_cfg_map_field cf 
 			LEFT JOIN m_cfg_map_fgroup cfg ON cf.fgroup_id=cfg.fgroup_id   
@@ -1060,8 +1076,9 @@ class GSession {
 			m_gsession_map_field f
 			LEFT OUTER JOIN m_user u ON f.owner_user_id = u.user_id
 			LEFT OUTER JOIN m_gsession_user gu ON f.owner_user_id = gu.user_id and gu.gsession_id = " . $this -> gsession_id . " 
-			LEFT OUTER JOIN m_gsession_auction a ON a.gsession_id = " . $this -> gsession_id . " and f.field_id = a.field_id and a.auct_state='" . G_AU_AUCT_STATE_OPENED . "'
-                  WHERE f.gsession_id = " . $this -> gsession_id . " and f.field_id=$field_id 
+			". 
+			//LEFT OUTER JOIN m_gsession_auction a ON a.gsession_id = " . $this -> gsession_id . " and f.field_id = a.field_id and a.auct_state='" . G_AU_AUCT_STATE_OPENED . "'
+                  "WHERE f.gsession_id = " . $this -> gsession_id . " and f.field_id=$field_id 
                   and cf.map_id=f.map_id and cf.field_id=f.field_id";
 		return DbQuery($sql, $tpl, $rowdelimter, $encodechars);
 	}
