@@ -376,7 +376,7 @@ class GSession {
 		  and gm.fgroup_id=$fgroup_id");
 	}
 
-	function GetFieldOpenedDeal($field_id) {
+	function GetFieldOpenedDealId($field_id) {
 		return DbGetValue("SELECT fdeal_id
                    FROM `m_gsession_map_field` gm 
                   WHERE gm.gsession_id = " . $this -> gsession_id . " 
@@ -1279,7 +1279,7 @@ class GSession {
 
 	private function CanOpenFieldAuction($auct_type, $holder_user_id, $field_id) {
 		$res = false;
-		if (($this -> GetFieldFType($field_id) == G_GS_FTYPE_GENERAL) && ($this -> GetFieldOpenedAuctionId($field_id) == NULL) && ($this->GetFieldOpenedDeal($field_id) == NULL)) {
+		if (($this -> GetFieldFType($field_id) == G_GS_FTYPE_GENERAL) && ($this -> GetFieldOpenedAuctionId($field_id) == NULL) && ($this->GetFieldOpenedDealId($field_id) == NULL)) {
 			if ($auct_type == G_AU_AUCT_TYPE_ATTACHED) {
 				if (($this -> GetFieldOwner($field_id) == NULL)) {
 					$res = true;
@@ -1501,15 +1501,46 @@ class GSession {
 		return $deal;
 	}
 
-	function CanUserDealOpen($holder_user_id, $opponent_user_id, $deal_payment, $owner_property_set, $opponent_property_set) {
+	function CanUserDealOpen($holder_user_id, $opponent_user_id, $deal_payment, $owner_property_set, $opponent_property_set, &$reason_msg) {
 		//todo Create check can user open deal
-		return true;
+		$res=true;
+		if (($deal_payment>0)&&($this -> GetUserFund($holder_user_id)<abs($deal_payment))) {
+			$res=false;
+			$reason_msg=GetCfgMessage('MSG_ERR_DL_NOTCREATED_LACK_ONWERFUNDS');
+
+		}
+		if (($deal_payment<0)&&($this -> GetUserFund($opponent_user_id)<abs($deal_payment))) {
+			$res=false;
+			$reason_msg=GetCfgMessage('MSG_ERR_DL_NOTCREATED_LACK_OPPONENTFUNDS');
+		}
+		if (($owner_property_set != NULL)&&($res==true))
+			foreach ($owner_property_set as $item) {
+				if (($this -> GetFieldOpenedAuctionId($item) != NULL) || ($this->GetFieldOpenedDealId($item) != NULL))  {
+					$res=false;
+					$reason_msg=GetCfgMessage('MSG_ERR_DL_NOTCREATED_FIELDBUSY');
+					break;
+				}
+			}
+		if (($opponent_property_set != NULL)&&($res==true))
+			foreach ($opponent_property_set as $item) {
+				if (($this -> GetFieldOpenedAuctionId($item) != NULL) || ($this->GetFieldOpenedDealId($item) != NULL))  {
+					$res=false;
+					$reason_msg=GetCfgMessage('MSG_ERR_DL_NOTCREATED_FIELDBUSY');
+					break;
+				}
+			}
+		//LogGSession($this -> gsession_id, $holder_user_id, G_LOG_LVL_DEBUG, "Can create deal: deny reason = $reason_msg");
+		return $res;
 	}
 
 	function UserDealOpen($holder_user_id, $opponent_user_id, $deal_payment, $owner_property_set, $opponent_property_set) {
-		if ($this -> CanUserDealOpen($holder_user_id, $opponent_user_id, $deal_payment, $owner_property_set, $opponent_property_set)) {
+		$reason_msg=NULL;
+		if ($this -> CanUserDealOpen($holder_user_id, $opponent_user_id, $deal_payment, $owner_property_set, $opponent_property_set, $reason_msg)) {
 			return $this -> OpenDeal($holder_user_id, $opponent_user_id, $deal_payment, $owner_property_set, $opponent_property_set);
-		}
+		} else {
+			$this -> AddMesage($reason_msg, G_GS_MSGTYPE_DLMSG, $holder_user_id, $holder_user_id);
+			LogGSession($this -> gsession_id, $holder_user_id, G_LOG_LVL_DEBUG, "Deal rejected. Deny reason = $reason_msg");
+		}                                                                                          
 		return false;
 	}
 
