@@ -24,8 +24,8 @@ function Close_timeouted_auctions(&$gsession) {
 		$gsession_id = $gsession -> gsession_id;
 		$rs = DbGetValueSet("select auct_id from m_gsession_auction a 
 	               	where a.gsession_id=$gsession_id and auct_state='" . G_AU_AUCT_STATE_OPENED . "' 
-	               	  and TIMESTAMPDIFF(MINUTE,auct_laststamp,CURRENT_TIMESTAMP)>" . G_AU_STEP_TIMEOUT . "
-	               	  order by auct_id");
+	               	  "//and TIMESTAMPDIFF(MINUTE,auct_laststamp,CURRENT_TIMESTAMP)>" . G_AU_STEP_TIMEOUT . "
+	               	  ."order by auct_id");
 		foreach ($rs as $row) {
 			$auct_id = $row['auct_id'];
 			//DbStartTrans();
@@ -33,7 +33,10 @@ function Close_timeouted_auctions(&$gsession) {
 				LogCritical($auct_id, 'wd');
 				try {
 					$auction = &$gsession -> getGAuction($auct_id);
-					$auction -> Close();
+					$left = $auction -> CalcTimeLeft();
+					if ($left<=0) {
+						$auction -> Close();
+					}
 				} catch(Exception $ex) {
 			        echo 'Caught exception: '.  $ex->getMessage(). "\n";
 					LogCritical('Caught exception: '.$ex->getMessage(), 'wd');

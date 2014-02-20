@@ -35,11 +35,11 @@ $g_ceil_tpl_readonly = '<div id="ceil%FCODE%" class="%ONAUCTION% ceil">
 $g_ceil_user_tpl = '<div id=uc%ACT_ORDER% class="pl us_c%ACT_ORDER%"></div>';
 $g_auct_tpl = "<div id=auctions >%ROWS%</div>";
 
-$g_auct_lot_tpl = "<div class='auctionlot lots' id='auctlot_%AUCT_ID%'> <div class='right'>AU%AUCT_ID% Lot %FIELD_NAME% Bid:%AUCT_BID% %AUCT_BID_USER_NAME%</div> 
-	<div class='left'>
-	<button class='button' id='btn_auct%AUCT_ID%_bid' %JOIN_DISABLED% onclick='DoJoinAuction(%AUCT_ID%)'>J</button>
-	<button class='button' id='btn_auct%AUCT_ID%_bid' %BID_DISABLED% onclick='DoBidAuction(%AUCT_ID%)'>Bid</button>
-	<button class='button' id='btn_auct%AUCT_ID%_leave' %LEAVE_DISABLED% onclick='DoLeaveAuction(%AUCT_ID%)'>X</button>
+$g_auct_lot_tpl = "<div class='auctionlot lots' id='auctlot_%AUCT_ID%'> <div class='right' style='width: 73%'>AU%AUCT_ID% Left:%AUCT_TIME_LEFT%min <br> Lot %FIELD_NAME% Bid:%AUCT_BID% %AUCT_BID_USER_NAME%</div> 
+	<div class='left' style='width: 27%'>
+	<!--<button class='button' id='btn_auct%AUCT_ID%_bid' %JOIN_DISABLED% onclick='DoJoinAuction(%AUCT_ID%)'>J</button>-->
+	<button class='button' id='btn_auct%AUCT_ID%_bid' %BID_DISABLED% onclick='DoBidAuction(%AUCT_ID%)'><img src='images/up_%BID_DISABLED%.gif' width=14 alt='bid' /></button>
+	<button class='button' id='btn_auct%AUCT_ID%_leave' %LEAVE_DISABLED% onclick='DoLeaveAuction(%AUCT_ID%)'><img src='images/down_%LEAVE_DISABLED%.gif' width=14 alt='leave' /></button>
 	</div>
 	<div id='pnl_auct%AUCT_ID%' style='clear: both;'>
 	</div>

@@ -35,6 +35,7 @@ class GAuction {
 
 		$msg_code = $this -> auct_type == G_AU_AUCT_TYPE_ATTACHED ? 'MSG_INFO_AU_ATTACHED_OPENED' : 'MSG_INFO_AU_PUBLIC_OPENED';
 		$this -> AddMesage(GetCfgMessage($msg_code), G_GS_MSGTYPE_AUMSG);
+		$this -> CalcTimeLeft();
 		return $this -> Load($this -> auct_id);
 	}
 
@@ -122,6 +123,19 @@ class GAuction {
 		return $this -> auct_type == G_AU_AUCT_TYPE_ATTACHED;
 	}
 
+	function CalcTimeLeft() {
+		$left = DbGetValue("select " . G_AU_STEP_TIMEOUT . " - TIMESTAMPDIFF(MINUTE,auct_laststamp,CURRENT_TIMESTAMP) from m_gsession_auction where auct_id=" . $this -> auct_id . " ");
+	        if ($left<0) {
+			$left=0;
+		}
+		DbSQL("UPDATE `m_gsession_auction` 
+		 SET `auct_time_left`=$left , last_changed=current_timestamp 
+         WHERE  auct_id=" . $this -> auct_id);
+		//$this -> MarkUpdated();
+
+		return $left;
+	}
+
 	function GetAuctId() {
 		return $this -> auct_id;
 	}
@@ -161,6 +175,14 @@ class GAuction {
 			}
 		}
 		return false;
+	}
+
+	function CanUserJoin($user_id) {
+		$res = false;
+		if (($this -> auct_type == G_AU_AUCT_TYPE_PUBLIC) && ($this -> holder_user_id != $user_id) && ($this -> IsOpened()) && ($this -> GetUserState($user_id) == NULL)) {
+			$res = true;
+		}
+		return $res;
 	}
 
 	private function DoEndAction() {

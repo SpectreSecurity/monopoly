@@ -1332,6 +1332,9 @@ class GSession {
 	function AuctionUserMakeDeltaBid($auct_id, $user_id, $bid) {
 		if ($this -> GetUserFund($user_id) >= $bid) {
 			$gauction = &$this -> getGAuction($auct_id);
+			if ($gauction -> CanUserJoin($user_id)) {
+				$gauction -> UserJoin($user_id);
+			}
 			return $gauction -> UserMakeDeltaBid($user_id, $bid);
 		}
 		return false;
@@ -1369,6 +1372,22 @@ class GSession {
 		$sql = "SELECT a.`auct_id`, a.`gsession_id`, a.`field_id`, a.`auct_state`, a.`auct_bid`, a.`auct_bid_user_id`, a.`auct_step`, 
 		            u.name auct_bid_user_name,  m.name field_name,  au.auct_user_state, 
 		            IF((au.auct_user_state='" . G_AU_AUCT_USER_STATE_ON . "' and (a.`auct_bid_user_id`!=$user_id or a.`auct_bid_user_id` is NULL)),'enabled', 'disabled') leave_status, 
+		            IF((au.auct_user_state='" . G_AU_AUCT_USER_STATE_ON . "' and (a.`auct_bid_user_id`!=$user_id or a.`auct_bid_user_id` is NULL)),'','disabled') leave_disabled,
+		            IF((au.auct_user_state='" . G_AU_AUCT_USER_STATE_ON . "'),'enabled', 'disabled') bid_status, 
+		            IF((au.auct_user_state='" . G_AU_AUCT_USER_STATE_ON . "' or (a.auct_type='" . G_AU_AUCT_TYPE_PUBLIC . "' and a.auct_holder_user_id!=$user_id )),'','disabled') bid_disabled,
+		            IF(a.auct_type='" . G_AU_AUCT_TYPE_PUBLIC . "',IF(IFNULL(au.user_id,0)>0 or a.auct_holder_user_id=$user_id,'disabled','enabled'), 'disabled') is_join_enabled,
+		            IF(a.auct_type='" . G_AU_AUCT_TYPE_PUBLIC . "',IF(IFNULL(au.user_id,0)>0 or a.auct_holder_user_id=$user_id,'disabled',''), 'disabled') join_disabled,
+			    (" . G_AU_STEP_TIMEOUT . "-TIMESTAMPDIFF(MINUTE,a.auct_laststamp,CURRENT_TIMESTAMP)) auct_time_left1,
+			    a.auct_time_left   
+     		FROM `m_gsession_auction` a  
+     		left outer join m_user u on a.auct_bid_user_id = u.user_id 
+     		LEFT JOIN m_cfg_map_field m ON a.field_id = m.field_id
+     		LEFT outer JOIN m_gsession_auction_user au ON a.auct_id=au.auct_id and au.user_id=$user_id
+     		WHERE a.gsession_id = " . $this -> gsession_id . " $auct_id_cond $auct_state_cond $lastupdated_cond 
+ 		    order by a.auct_id asc";
+/*		$sql = "SELECT a.`auct_id`, a.`gsession_id`, a.`field_id`, a.`auct_state`, a.`auct_bid`, a.`auct_bid_user_id`, a.`auct_step`, 
+		            u.name auct_bid_user_name,  m.name field_name,  au.auct_user_state, 
+		            IF((au.auct_user_state='" . G_AU_AUCT_USER_STATE_ON . "' and (a.`auct_bid_user_id`!=$user_id or a.`auct_bid_user_id` is NULL)),'enabled', 'disabled') leave_status, 
 		            IF((au.auct_user_state='" . G_AU_AUCT_USER_STATE_ON . "' and (a.`auct_bid_user_id`!=$user_id or a.`auct_bid_user_id` is NULL)),'','disabled=\"disabled\"') leave_disabled,
 		            IF((au.auct_user_state='" . G_AU_AUCT_USER_STATE_ON . "'),'enabled', 'disabled') bid_status, 
 		            IF((au.auct_user_state='" . G_AU_AUCT_USER_STATE_ON . "'),'','disabled=\"disabled\"') bid_disabled,
@@ -1379,7 +1398,7 @@ class GSession {
      		LEFT JOIN m_cfg_map_field m ON a.field_id = m.field_id
      		LEFT outer JOIN m_gsession_auction_user au ON a.auct_id=au.auct_id and au.user_id=$user_id
      		WHERE a.gsession_id = " . $this -> gsession_id . " $auct_id_cond $auct_state_cond $lastupdated_cond 
- 		    order by a.auct_id asc";
+ 		    order by a.auct_id asc";*/
 		return DbQuery($sql, $tpl, $rowdelimter, $encodechars);
 	}
 
